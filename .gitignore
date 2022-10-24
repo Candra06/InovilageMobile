@@ -99,3 +99,9 @@ API
 Training
 Blog
 About
+windows/runner/resource.h
+*.ico
+*.manifest
+*.rc
+*.cpp
+*.h
