@@ -66,22 +66,21 @@ void showSnackBar(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-               const TextWidget(
-                  // label: title,
-                  // type: 'b2',
-                  // weight: 'bold',
-                  // color: theme['textColor'],
-                  // textOverflow: TextOverflow.ellipsis,
-                  // lineHeight: 1.1,
-                  // maxLines: 2,
+                TextWidget(
+                  label: title,
+                  type: 'b2',
+                  weight: 'bold',
+                  color: theme['textColor'],
+                  textOverflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
                 subtitle != ''
-                    ?const TextWidget(
-                        // label: subtitle,
-                        // type: 'l1',
-                        // color: theme['textColor'],
-                        // maxLines: 2,
-                        // textOverflow: TextOverflow.ellipsis,
+                    ? TextWidget(
+                        label: subtitle,
+                        type: 'l1',
+                        color: theme['textColor'],
+                        maxLines: 2,
+                        textOverflow: TextOverflow.ellipsis,
                       )
                     : Container()
               ],
