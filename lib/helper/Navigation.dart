@@ -2,25 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:inovilage/screen/auth/LoginScreen.dart';
 import 'package:inovilage/screen/auth/RegisterScreen.dart';
 import 'package:inovilage/screen/auth/SplashScreen.dart';
+import 'package:inovilage/screen/delivery/DeliveryFormScreen.dart';
+import 'package:inovilage/screen/home/AccountScreen.dart';
+import 'package:inovilage/screen/home/TransactionScreen.dart';
+import 'package:inovilage/widget/BottomNavigationWidget.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Navigation {
   static const splashScreen = '/splashScreen';
   static const loginScreen = '/loginScreen';
   static const registerScreen = '/registerScreen';
+  static const homeScreen = '/homeScreen';
+  static const transacTionScreen = '/transacTionScreen';
+  static const accountScreen = '/accountScreen';
+  static const deliveryFormScreen = '/deliveryFormScreen';
 
   static Route<dynamic>? generateRoute(RouteSettings? settings) {
     switch (settings!.name) {
       case splashScreen:
-        return MaterialPageRoute(
-          builder: (_) => const SplashScreen(),
+        return PageTransition(
+          child: const SplashScreen(),
+          type: PageTransitionType.rightToLeft,
         );
       case loginScreen:
-        return MaterialPageRoute(
-          builder: (_) => const LoginScreen(),
+        return PageTransition(
+          child: const LoginScreen(),
+          type: PageTransitionType.rightToLeft,
         );
       case registerScreen:
-        return MaterialPageRoute(
-          builder: (_) => const RegisterScreen(),
+        return PageTransition(
+          child: const RegisterScreen(),
+          type: PageTransitionType.rightToLeft,
+        );
+      case homeScreen:
+        return PageTransition(
+          child: BottomNavigationWidget(
+            selectedIndex: int.tryParse(settings.arguments.toString()) ?? 0,
+          ),
+          type: PageTransitionType.rightToLeft,
+        );
+      case transacTionScreen:
+        return PageTransition(
+          child: const TransactionScreen(),
+          type: PageTransitionType.rightToLeft,
+        );
+      case accountScreen:
+        return PageTransition(
+          child: const AccountScreen(),
+          type: PageTransitionType.rightToLeft,
+        );
+      case deliveryFormScreen:
+        return PageTransition(
+          child: const DeliveryFormScreen(),
+          type: PageTransitionType.rightToLeft,
         );
       default:
         return MaterialPageRoute(

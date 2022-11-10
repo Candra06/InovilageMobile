@@ -79,14 +79,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       title: "hidden",
                       hintText: "Name",
                       controller: nameController,
-                      iconLeft: const Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: Icon(
-                          Icons.account_circle_outlined,
-                        ),
-                      ),
+                      iconLeft: Icons.account_circle_outlined,
                     ),
                   ),
                   Container(
@@ -98,14 +91,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       title: "hidden",
                       hintText: "No Hp",
                       controller: hpController,
-                      iconLeft: const Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: Icon(
-                          Icons.phone_android_rounded,
-                        ),
-                      ),
+                      iconLeft: Icons.phone_android_rounded,
                     ),
                   ),
                   Container(
@@ -117,14 +103,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       title: "hidden",
                       hintText: "E-mail",
                       controller: emailController,
-                      iconLeft: const Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: Icon(
-                          Icons.mail,
-                        ),
-                      ),
+                      iconLeft: Icons.mail,
                     ),
                   ),
                   Container(
@@ -136,14 +115,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       title: "hidden",
                       hintText: "Alamat",
                       controller: addressController,
-                      iconLeft: const Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: Icon(
-                          Icons.location_on_outlined,
-                        ),
-                      ),
+                      iconLeft: Icons.location_on_outlined,
                     ),
                   ),
                   Container(
@@ -156,14 +128,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       title: "hidden",
                       hintText: "Password",
                       controller: passwordController,
-                      iconLeft: const Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: Icon(
-                          Icons.lock,
-                        ),
-                      ),
+                      iconLeft: Icons.lock,
                     ),
                   ),
                   SizedBox(

@@ -76,14 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     title: "hidden",
                     hintText: "E-mail",
                     controller: emailController,
-                    iconLeft: const Padding(
-                      padding: EdgeInsets.only(
-                        right: 10,
-                      ),
-                      child: Icon(
-                        Icons.mail,
-                      ),
-                    ),
+                    iconLeft: Icons.mail,
                   ),
                 ),
                 Container(
@@ -95,14 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     title: "hidden",
                     hintText: "Password",
                     controller: passwordController,
-                    iconLeft: const Padding(
-                      padding: EdgeInsets.only(
-                        right: 10,
-                      ),
-                      child: Icon(
-                        Icons.lock,
-                      ),
-                    ),
+                    iconLeft: Icons.lock,
                   ),
                 ),
                 Container(
@@ -121,7 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   child: ButtonWidget(
                     label: "Sing In",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        Navigation.homeScreen,
+                      );
+                    },
                     upperCase: true,
                   ),
                 ),

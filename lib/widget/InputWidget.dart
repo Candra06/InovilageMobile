@@ -5,7 +5,7 @@ import 'package:inovilage/widget/TextWidget.dart';
 
 class InputWidget extends StatefulWidget {
   final String specialRules, title, hintText;
-  final Widget? iconLeft, iconRight;
+  final IconData? iconLeft, iconRight;
   final bool enable, readonly, obscure, showShadow, isSearch;
   final TextInputType? type;
   final TextEditingController? controller;
@@ -86,7 +86,7 @@ class _InputWidgetState extends State<InputWidget> {
   _borderInput() {
     Border inputBorder;
     Color defaultColor =
-        isFocus && !widget.readonly ? primaryColor : fontSecondaryColor;
+        isFocus && !widget.readonly ? secondaryColor : fontSecondaryColor;
 
     switch (widget.border.toLowerCase()) {
       case 'none':
@@ -217,7 +217,19 @@ class _InputWidgetState extends State<InputWidget> {
                     inputFormatters: specialRules,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      prefixIcon: widget.iconLeft,
+                      prefixIcon: widget.iconLeft.runtimeType != Null
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                              ),
+                              child: Icon(
+                                widget.iconLeft,
+                                color: isFocus
+                                    ? secondaryColor
+                                    : fontSecondaryColor,
+                              ),
+                            )
+                          : null,
                       hintText: widget.hintText,
                       contentPadding: widget.inputPadding ??
                           const EdgeInsets.symmetric(
@@ -234,18 +246,23 @@ class _InputWidgetState extends State<InputWidget> {
                                 obscure
                                     ? Icons.visibility_off_outlined
                                     : Icons.visibility_outlined,
-                                color:
-                                    isFocus ? primaryColor : fontSecondaryColor,
+                                color: isFocus
+                                    ? secondaryColor
+                                    : fontSecondaryColor,
                                 size: 20,
                               ),
                             )
-                          : widget.iconRight,
+                          : Icon(
+                              widget.iconRight,
+                              color:
+                                  isFocus ? secondaryColor : fontSecondaryColor,
+                            ),
                       suffixIconConstraints: const BoxConstraints(
                         maxHeight: 20,
                         maxWidth: 35,
                       ),
-                      suffixIconColor: primaryColor,
-                      prefixIconColor: primaryColor,
+                      suffixIconColor: secondaryColor,
+                      prefixIconColor: secondaryColor,
                       prefixIconConstraints: const BoxConstraints(
                         maxHeight: 20,
                         maxWidth: 35,
