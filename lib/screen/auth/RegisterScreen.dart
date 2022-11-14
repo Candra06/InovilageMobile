@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
+import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/ButtonWidget.dart';
 import 'package:inovilage/widget/ImageWidget.dart';
 import 'package:inovilage/widget/InputWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -15,11 +18,116 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
+  bool loading = false;
   TextEditingController nameController = TextEditingController(),
       hpController = TextEditingController(),
       emailController = TextEditingController(),
       passwordController = TextEditingController(),
       addressController = TextEditingController();
+
+  void onSubmit() {
+    if (nameController.text.isEmpty) {
+      showSnackBar(
+        context,
+        "Warning",
+        subtitle: "Nama Lengkap wajib diisi",
+        type: "warning",
+        duration: 3,
+        position: 'top',
+      );
+    } else if (hpController.text.isEmpty) {
+      showSnackBar(
+        context,
+        "Warning",
+        subtitle: "Nomor telepon wajib diisi",
+        type: "warning",
+        duration: 3,
+        position: 'top',
+      );
+    } else if (emailController.text.isEmpty) {
+      showSnackBar(
+        context,
+        "Warning",
+        subtitle: "Email wajib diisi",
+        type: "warning",
+        duration: 3,
+        position: 'top',
+      );
+    } else if (passwordController.text.isEmpty) {
+      showSnackBar(
+        context,
+        "Warning",
+        subtitle: "Password wajib diisi",
+        type: "warning",
+        duration: 3,
+        position: 'top',
+      );
+    } else if (addressController.text.isEmpty) {
+      showSnackBar(
+        context,
+        "Warning",
+        subtitle: "Alamat wajib diisi",
+        type: "warning",
+        duration: 3,
+        position: 'top',
+      );
+    } else {
+      register();
+    }
+  }
+
+  register() async {
+    setState(() {
+      loading = true;
+    });
+    Map<String, dynamic> body = {
+      "name": nameController.text,
+      "email": emailController.text,
+      "phone": hpController.text,
+      "password": passwordController.text,
+      "role": "Pengguna",
+      "status": "Aktif",
+      "alamat": addressController.text
+    };
+
+    await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    )
+        .register(
+      body: body,
+    )
+        .then((value) async {
+      if (value['code'] == '00') {
+        if (value['data']['role'] == 'Pengguna') {
+          await Provider.of<AuthProvider>(
+            context,
+            listen: false,
+          ).dashboard().then((response) {
+            if (response['code'] == '00') {
+              Navigator.pushNamed(
+                context,
+                Navigation.homeScreen,
+              );
+            }
+          });
+        } else {}
+      } else {
+        showSnackBar(
+          context,
+          "Failed",
+          subtitle: value['message'],
+          type: "error",
+          duration: 5,
+          position: 'top',
+        );
+      }
+    });
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,14 +236,21 @@ class RegisterScreenState extends State<RegisterScreen> {
                       title: "hidden",
                       hintText: "Password",
                       controller: passwordController,
+                      obscure: true,
                       iconLeft: Icons.lock,
                     ),
                   ),
                   SizedBox(
                     width: double.infinity,
                     child: ButtonWidget(
+                      isLoading: loading,
+                      theme: loading ? 'disable' : 'primary',
                       label: "Sing Up",
-                      onPressed: () {},
+                      onPressed: () {
+                        if (!loading) {
+                          onSubmit();
+                        }
+                      },
                       upperCase: true,
                     ),
                   ),

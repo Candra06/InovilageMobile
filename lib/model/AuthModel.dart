@@ -29,7 +29,7 @@ class AuthModel {
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
-        saldo: json["saldo"] ?? 0,
+        saldo: int.parse(json["saldo"].toString()),
         id: json["id"] ?? 0,
       );
 

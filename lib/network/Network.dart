@@ -6,7 +6,7 @@ import 'package:inovilage/helper/Pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  final String server = "";
+  final String server = "https://inovilage.waserdajaya.store/public/api/";
 
   Map<String, String> headers = {'content-type': 'application/json'};
   final String codeError = "-1";
@@ -17,6 +17,7 @@ class Network {
     Map<String, String>? params,
     Map<String, String>? header,
   }) async {
+    String sendUrl = server + url;
     List<String> keys = [];
     if (params != null) {
       for (var mapEntry in params.entries) {
@@ -24,7 +25,7 @@ class Network {
         keys.add("$key=$value");
       }
       String parameter = keys.join('&').toString();
-      url = "$url?$parameter";
+      sendUrl = "$sendUrl?$parameter";
     }
 
     Map<String, String> sendHeader = {};
@@ -34,10 +35,14 @@ class Network {
         headers[key] = value;
       }
     }
+    var tokenAuth = await Pref.getToken();
+    if (tokenAuth.toString().isNotEmpty) {
+      headers['Authorization'] = "$tokenAuth";
+    }
     headers.addAll(sendHeader);
 
     http.Response response = await http.get(
-      Uri.parse(url),
+      Uri.parse(sendUrl),
       headers: headers,
     );
     return json.decode(response.body);
@@ -50,6 +55,7 @@ class Network {
   }) async {
     Map<String, String> sendHeader = {};
     Map<String, dynamic> sendBody = {};
+    String sendUrl = server + url;
     if (header != null) {
       for (final mapEntry in header.entries) {
         final key = mapEntry.key, value = mapEntry.value;
@@ -68,11 +74,11 @@ class Network {
 
     var tokenAuth = await Pref.getToken();
     if (tokenAuth.toString().isNotEmpty) {
-      headers['Authorization'] = "Bearer $tokenAuth";
+      headers['Authorization'] = "$tokenAuth";
     }
 
     http.Response response = await http.post(
-      Uri.parse(url),
+      Uri.parse(sendUrl),
       body: json.encode(sendBody),
       headers: headers,
     );

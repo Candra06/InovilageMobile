@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
+import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/ButtonWidget.dart';
 import 'package:inovilage/widget/ImageWidget.dart';
 import 'package:inovilage/widget/InputWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,8 +20,95 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool loading = false;
   TextEditingController emailController = TextEditingController(),
       passwordController = TextEditingController();
+  void onSubmit() {
+    if (emailController.text.isEmpty) {
+      showSnackBar(
+        context,
+        "Warning",
+        subtitle: "Email wajib diisi",
+        type: "warning",
+        duration: 3,
+        position: 'top',
+      );
+    } else if (passwordController.text.isEmpty) {
+      showSnackBar(
+        context,
+        "Warning",
+        subtitle: "Password wajib diisi",
+        type: "warning",
+        duration: 3,
+        position: 'top',
+      );
+    } else {
+      login();
+    }
+  }
+
+  login() async {
+    setState(() {
+      loading = true;
+    });
+    Map<String, dynamic> body = {
+      "email": emailController.text,
+      "password": passwordController.text,
+    };
+
+    await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    )
+        .login(
+      body: body,
+    )
+        .then((value) async {
+      if (value['code'] == '00') {
+        await Provider.of<AuthProvider>(
+          context,
+          listen: false,
+        ).getUserData().then((response) async {
+          if (response['code'] == '00') {
+            showSnackBar(
+              context,
+              "Success",
+              subtitle: value['message'],
+              type: "success",
+              duration: 5,
+              position: 'top',
+            );
+            if (response['data']['role'] == 'Pengguna') {
+              await Provider.of<AuthProvider>(
+                context,
+                listen: false,
+              ).dashboard().then((resp) {
+                if (resp['code'] == '00') {
+                  Navigator.pushNamed(
+                    context,
+                    Navigation.homeScreen,
+                  );
+                }
+              });
+            }
+          }
+        });
+      } else {
+        showSnackBar(
+          context,
+          "Failed",
+          subtitle: value['message'],
+          type: "error",
+          duration: 5,
+          position: 'top',
+        );
+      }
+    });
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,6 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Password",
                     controller: passwordController,
                     iconLeft: Icons.lock,
+                    obscure: true,
                   ),
                 ),
                 Container(
@@ -106,12 +199,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ButtonWidget(
-                    label: "Sing In",
+                    theme: loading ? 'disable' : 'primary',
+                    isLoading: loading,
+                    label: "Sign In",
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        Navigation.homeScreen,
-                      );
+                      if (!loading) {
+                        onSubmit();
+                      }
                     },
                     upperCase: true,
                   ),
