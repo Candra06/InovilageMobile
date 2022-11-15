@@ -16,3 +16,12 @@ String dateFormatDay(
     return value.toString();
   }
 }
+
+String formatrupiah({String amount = "0", String awalan = "RP"}) {
+  try {
+    final oCcy = NumberFormat("#,##0", "id_ID");
+    return "$awalan ${oCcy.format(double.parse(amount))}";
+  } catch (e) {
+    return amount;
+  }
+}

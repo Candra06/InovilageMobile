@@ -5,6 +5,7 @@ import 'package:inovilage/screen/auth/SplashScreen.dart';
 import 'package:inovilage/screen/delivery/DeliveryFormScreen.dart';
 import 'package:inovilage/screen/home/AccountScreen.dart';
 import 'package:inovilage/screen/home/TransactionScreen.dart';
+import 'package:inovilage/screen/trash/ListTrashScreen.dart';
 import 'package:inovilage/widget/BottomNavigationWidget.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -16,6 +17,7 @@ class Navigation {
   static const transacTionScreen = '/transacTionScreen';
   static const accountScreen = '/accountScreen';
   static const deliveryFormScreen = '/deliveryFormScreen';
+  static const listSampahScreen = '/listSampahScreen';
 
   static Route<dynamic>? generateRoute(RouteSettings? settings) {
     switch (settings!.name) {
@@ -54,6 +56,11 @@ class Navigation {
       case deliveryFormScreen:
         return PageTransition(
           child: const DeliveryFormScreen(),
+          type: PageTransitionType.rightToLeft,
+        );
+      case listSampahScreen:
+        return PageTransition(
+          child: const ListTrashScreen(),
           type: PageTransitionType.rightToLeft,
         );
       default:

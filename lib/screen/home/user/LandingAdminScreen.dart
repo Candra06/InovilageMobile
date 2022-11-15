@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:inovilage/model/AuthModel.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/static/Static.dart';
-import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/ImageWidget.dart';
@@ -11,22 +9,14 @@ import 'package:inovilage/widget/StatusCardWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';
 
-class LandingUserScreen extends StatefulWidget {
-  const LandingUserScreen({Key? key}) : super(key: key);
+class LandingAdminScreen extends StatefulWidget {
+  const LandingAdminScreen({Key? key}) : super(key: key);
 
   @override
-  State<LandingUserScreen> createState() => _LandingUserScreenState();
+  State<LandingAdminScreen> createState() => _LandingAdminScreenState();
 }
 
-class _LandingUserScreenState extends State<LandingUserScreen> {
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () {
-      // loadDashboard();
-    });
-    super.initState();
-  }
-
+class _LandingAdminScreenState extends State<LandingAdminScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -38,8 +28,6 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
             ),
             child: Consumer<AuthProvider>(
               builder: (context, value, child) {
-                AuthModel user = value.authData;
-                Map dashboard = value.dataDashboard;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -57,7 +45,7 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextWidget(
-                              label: "Hai, ${user.name}",
+                              label: "Hai, Username",
                               weight: 'bold',
                               color: secondaryColor,
                               type: 's1',
@@ -66,7 +54,7 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
                               height: 8,
                             ),
                             TextWidget(
-                              label: "${user.email}",
+                              label: "Hai, Username",
                               color: fontSecondaryColor,
                               type: 'l1',
                             ),
@@ -131,68 +119,55 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
                           horizontal: 20,
                         ),
                         child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  TextWidget(
-                                    label: "Saldo",
-                                    color: fontPrimaryColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  TextWidget(
-                                    label: value.loading
-                                        ? "Memuat..."
-                                        : formatrupiah(
-                                            amount: dashboard['saldo'],
-                                            awalan: 'Rp. ',
-                                          ),
-                                    color: fontPrimaryColor,
-                                  ),
-                                ],
-                              ),
+                            Column(
+                              children: [
+                                TextWidget(
+                                  label: "Saldo",
+                                  color: fontPrimaryColor,
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                TextWidget(
+                                  label: "Rp. 40.000",
+                                  color: fontPrimaryColor,
+                                ),
+                              ],
                             ),
-                            Expanded(
-                              child: SizedBox(
-                                width: 2,
-                                height: 45,
-                                child: Column(
-                                  children: List.generate(
-                                    100 ~/ 10,
-                                    (index) => Expanded(
-                                      child: Container(
-                                        color: index % 2 == 0
-                                            ? Colors.transparent
-                                            : fontSecondaryColor,
-                                        height: 8,
-                                        width: 2,
-                                      ),
+                            SizedBox(
+                              width: 2,
+                              height: 45,
+                              child: Column(
+                                children: List.generate(
+                                  100 ~/ 10,
+                                  (index) => Expanded(
+                                    child: Container(
+                                      color: index % 2 == 0
+                                          ? Colors.transparent
+                                          : fontSecondaryColor,
+                                      height: 8,
+                                      width: 2,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  TextWidget(
-                                    label: "Total Pick Up",
-                                    color: fontPrimaryColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  TextWidget(
-                                    label: value.loading
-                                        ? "Memuat..."
-                                        : dashboard['pickup'].toString(),
-                                    color: fontPrimaryColor,
-                                  ),
-                                ],
-                              ),
+                            Column(
+                              children: [
+                                TextWidget(
+                                  label: "Total Pick Up",
+                                  color: fontPrimaryColor,
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                TextWidget(
+                                  label: "40",
+                                  color: fontPrimaryColor,
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -279,7 +254,6 @@ class CardFeature extends StatelessWidget {
             ),
             TextWidget(
               label: data['label'],
-              textAlign: TextAlign.center,
             ),
           ],
         ),

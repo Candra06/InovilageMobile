@@ -41,7 +41,7 @@ List<Map<String, dynamic>> features = [
       color: secondaryColor,
       size: 50,
     ),
-    "url": Navigation.deliveryFormScreen,
+    "url": Navigation.listSampahScreen,
   }
 ];
 

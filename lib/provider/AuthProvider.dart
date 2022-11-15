@@ -6,11 +6,13 @@ import 'package:inovilage/network/Network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
-  AuthModel _authData = AuthModel();
-  AuthModel get authData => _authData;
+  AuthModel? _authData;
+  AuthModel get authData => _authData!;
   Map _dataDashboard = {}, _statusKurir = {};
   Map get dataDashboard => _dataDashboard;
   Map get statusKurir => _statusKurir;
+  bool _loading = false;
+  bool get loading => _loading;
 
   Future<Map<String, dynamic>> register({
     required Map<String, dynamic> body,
@@ -24,6 +26,7 @@ class AuthProvider with ChangeNotifier {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('token', "Bearer ${request['access_token']}");
       }
+      notifyListeners();
       return request;
     } catch (e) {
       return {
@@ -41,10 +44,11 @@ class AuthProvider with ChangeNotifier {
         body: body,
       );
       if (request['code'] == '00') {
-        
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('token', "Bearer ${request['access_token']}");
       }
+
+      notifyListeners();
       return request;
     } catch (e) {
       return {
@@ -60,6 +64,8 @@ class AuthProvider with ChangeNotifier {
       if (request['code'] == '00') {
         _authData = AuthModel.fromJson(request['data']);
       }
+
+      notifyListeners();
       return request;
     } catch (e) {
       return {
@@ -77,6 +83,7 @@ class AuthProvider with ChangeNotifier {
         body: body,
       );
 
+      notifyListeners();
       return request;
     } catch (e) {
       return {
@@ -97,6 +104,7 @@ class AuthProvider with ChangeNotifier {
         _statusKurir = request['data'];
       }
 
+      notifyListeners();
       return request;
     } catch (e) {
       return {
@@ -107,13 +115,19 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> dashboard() async {
+    _loading = true;
+    notifyListeners();
     try {
       var request = await EndPoint.dashboard();
       if (request['code'] == '00') {
         _dataDashboard = request['data'];
       }
+      _loading = false;
+      notifyListeners();
       return request;
     } catch (e) {
+      _loading = false;
+      notifyListeners();
       return {
         "code": Network().codeError,
         "message": e.toString(),
@@ -124,7 +138,12 @@ class AuthProvider with ChangeNotifier {
   Future<Map<String, dynamic>> logout() async {
     try {
       var request = await EndPoint.logout();
-
+      if (request['code'] == '00') {
+        _authData = null;
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('token', "");
+      }
+      notifyListeners();
       return request;
     } catch (e) {
       return {
