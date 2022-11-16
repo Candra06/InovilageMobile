@@ -32,33 +32,43 @@ class _LandingAdminScreenState extends State<LandingAdminScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.account_circle_outlined,
-                          color: secondaryColor,
-                          size: 50,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            TextWidget(
-                              label: "Hai, Username",
-                              weight: 'bold',
+                            Icon(
+                              Icons.account_circle_outlined,
                               color: secondaryColor,
-                              type: 's1',
+                              size: 40,
                             ),
                             const SizedBox(
-                              height: 8,
+                              width: 8,
                             ),
-                            TextWidget(
-                              label: "Hai, Username",
-                              color: fontSecondaryColor,
-                              type: 'l1',
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextWidget(
+                                  label: "Hai, Username",
+                                  weight: 'bold',
+                                  color: secondaryColor,
+                                  type: 's1',
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                TextWidget(
+                                  label: "Hai, Username",
+                                  color: fontSecondaryColor,
+                                  type: 'l1',
+                                ),
+                              ],
                             ),
                           ],
+                        ),
+                        Icon(
+                          Icons.logout,
+                          color: secondaryColor,
+                          size: 40,
                         ),
                       ],
                     ),
@@ -79,12 +89,12 @@ class _LandingAdminScreenState extends State<LandingAdminScreen> {
                         children: [
                           const Expanded(
                             child: ImageWidget(
-                              image: bgUser,
+                              image: bgAdmin,
                             ),
                           ),
                           TextWidget(
                             label:
-                                "Ayo kirimkan\nsampahmu melalui\naplikasi XSAMP !",
+                                "Kelola aplikasi \n dengan sistem\n yang cerdas",
                             color: whiteColor,
                             weight: "bold",
                             textAlign: TextAlign.center,
@@ -92,107 +102,26 @@ class _LandingAdminScreenState extends State<LandingAdminScreen> {
                         ],
                       ),
                     ),
-                    TextWidget(
-                      label: "Pendapatan",
-                      type: 's2',
-                      color: secondaryColor,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: fontSecondaryColor,
-                            width: 2,
-                          ),
-                          top: BorderSide(
-                            color: fontSecondaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 20,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                TextWidget(
-                                  label: "Saldo",
-                                  color: fontPrimaryColor,
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                TextWidget(
-                                  label: "Rp. 40.000",
-                                  color: fontPrimaryColor,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 2,
-                              height: 45,
-                              child: Column(
-                                children: List.generate(
-                                  100 ~/ 10,
-                                  (index) => Expanded(
-                                    child: Container(
-                                      color: index % 2 == 0
-                                          ? Colors.transparent
-                                          : fontSecondaryColor,
-                                      height: 8,
-                                      width: 2,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                TextWidget(
-                                  label: "Total Pick Up",
-                                  color: fontPrimaryColor,
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                TextWidget(
-                                  label: "40",
-                                  color: fontPrimaryColor,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: defaultMargin,
                       ),
                       child: TextWidget(
-                        label: "Fitur",
+                        label: "Setting",
                         type: 's2',
                         color: secondaryColor,
                       ),
                     ),
                     AlignedGridView.count(
-                      itemCount: features.length,
+                      itemCount: featuresAdmin.length,
                       shrinkWrap: true,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                       physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
+                      crossAxisCount: 3,
                       itemBuilder: (context, index) {
                         return CardFeature(
-                          data: features[index],
+                          data: featuresAdmin[index],
                         );
                       },
                     ),
@@ -238,13 +167,18 @@ class CardFeature extends StatelessWidget {
           horizontal: defaultMargin,
         ),
         decoration: BoxDecoration(
-          color: whiteColor,
+          color: backGroundFeature,
           borderRadius: BorderRadius.circular(
             defaultBorderRadius,
           ),
-          border: Border.all(
-            color: primaryColor,
-          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.9),
+              spreadRadius: -1,
+              blurRadius: 3,
+              offset: Offset(0, 5), // changes position of shadow
+            ),
+          ],
         ),
         child: Column(
           children: [
@@ -254,6 +188,8 @@ class CardFeature extends StatelessWidget {
             ),
             TextWidget(
               label: data['label'],
+              type: 'b2',
+              textAlign: TextAlign.center,
             ),
           ],
         ),

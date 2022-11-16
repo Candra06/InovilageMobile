@@ -29,213 +29,214 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SafeArea(
+    return SafeArea(
+      child: SingleChildScrollView(
         child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: defaultMargin,
-              vertical: 24,
-            ),
-            child: Consumer<AuthProvider>(
-              builder: (context, value, child) {
-                AuthModel user = value.authData;
-                Map dashboard = value.dataDashboard;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.account_circle_outlined,
-                          color: secondaryColor,
-                          size: 50,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              label: "Hai, ${user.name}",
-                              weight: 'bold',
-                              color: secondaryColor,
-                              type: 's1',
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            TextWidget(
-                              label: "${user.email}",
-                              color: fontSecondaryColor,
-                              type: 'l1',
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(
-                          defaultBorderRadius,
-                        ),
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultMargin,
+            vertical: 24,
+          ),
+          child: Consumer<AuthProvider>(
+            builder: (context, value, child) {
+              AuthModel user = value.authData!;
+              Map dashboard = value.dataDashboard;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.account_circle_outlined,
+                        color: secondaryColor,
+                        size: 50,
                       ),
-                      padding: EdgeInsets.all(
-                        defaultMargin,
+                      const SizedBox(
+                        width: 8,
                       ),
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 24,
-                      ),
-                      child: Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Expanded(
-                            child: ImageWidget(
-                              image: bgUser,
-                            ),
+                          TextWidget(
+                            label: "Hai, ${user.name}",
+                            weight: 'bold',
+                            color: secondaryColor,
+                            type: 's1',
+                          ),
+                          const SizedBox(
+                            height: 8,
                           ),
                           TextWidget(
-                            label:
-                                "Ayo kirimkan\nsampahmu melalui\naplikasi XSAMP !",
-                            color: whiteColor,
-                            weight: "bold",
-                            textAlign: TextAlign.center,
+                            label: "${user.email}",
+                            color: fontSecondaryColor,
+                            type: 'l1',
                           ),
                         ],
                       ),
-                    ),
-                    TextWidget(
-                      label: "Pendapatan",
-                      type: 's2',
-                      color: secondaryColor,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 12,
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(
+                        defaultBorderRadius,
                       ),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: fontSecondaryColor,
-                            width: 2,
-                          ),
-                          top: BorderSide(
-                            color: fontSecondaryColor,
-                            width: 2,
+                    ),
+                    padding: EdgeInsets.all(
+                      defaultMargin,
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 24,
+                    ),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          child: ImageWidget(
+                            image: bgUser,
                           ),
                         ),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 20,
+                        TextWidget(
+                          label:
+                              "Ayo kirimkan\nsampahmu melalui\naplikasi XSAMP !",
+                          color: whiteColor,
+                          weight: "bold",
+                          textAlign: TextAlign.center,
                         ),
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  TextWidget(
-                                    label: "Saldo",
-                                    color: fontPrimaryColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  TextWidget(
-                                    label: value.loading
-                                        ? "Memuat..."
-                                        : formatrupiah(
-                                            amount: dashboard['saldo'],
-                                            awalan: 'Rp. ',
-                                          ),
-                                    color: fontPrimaryColor,
-                                  ),
-                                ],
-                              ),
+                      ],
+                    ),
+                  ),
+                  TextWidget(
+                    label: "Pendapatan",
+                    type: 's2',
+                    color: secondaryColor,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: fontSecondaryColor,
+                          width: 2,
+                        ),
+                        top: BorderSide(
+                          color: fontSecondaryColor,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 20,
+                      ),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                TextWidget(
+                                  label: "Saldo",
+                                  color: fontPrimaryColor,
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                TextWidget(
+                                  label: value.loading
+                                      ? "Memuat..."
+                                      : formatrupiah(
+                                          amount: dashboard['saldo'],
+                                          awalan: 'Rp. ',
+                                        ),
+                                  color: fontPrimaryColor,
+                                ),
+                              ],
                             ),
-                            Expanded(
-                              child: SizedBox(
-                                width: 2,
-                                height: 45,
-                                child: Column(
-                                  children: List.generate(
-                                    100 ~/ 10,
-                                    (index) => Expanded(
-                                      child: Container(
-                                        color: index % 2 == 0
-                                            ? Colors.transparent
-                                            : fontSecondaryColor,
-                                        height: 8,
-                                        width: 2,
-                                      ),
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              width: 2,
+                              height: 45,
+                              child: Column(
+                                children: List.generate(
+                                  100 ~/ 10,
+                                  (index) => Expanded(
+                                    child: Container(
+                                      color: index % 2 == 0
+                                          ? Colors.transparent
+                                          : fontSecondaryColor,
+                                      height: 8,
+                                      width: 2,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  TextWidget(
-                                    label: "Total Pick Up",
-                                    color: fontPrimaryColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  TextWidget(
-                                    label: value.loading
-                                        ? "Memuat..."
-                                        : dashboard['pickup'].toString(),
-                                    color: fontPrimaryColor,
-                                  ),
-                                ],
-                              ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                TextWidget(
+                                  label: "Total Pick Up",
+                                  color: fontPrimaryColor,
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                TextWidget(
+                                  label: value.loading
+                                      ? "Memuat..."
+                                      : dashboard['pickup'].toString(),
+                                  color: fontPrimaryColor,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: defaultMargin,
-                      ),
-                      child: TextWidget(
-                        label: "Fitur",
-                        type: 's2',
-                        color: secondaryColor,
-                      ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: defaultMargin,
                     ),
-                    AlignedGridView.count(
-                      itemCount: features.length,
-                      shrinkWrap: true,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      itemBuilder: (context, index) {
-                        return CardFeature(
-                          data: features[index],
-                        );
-                      },
+                    child: TextWidget(
+                      label: "Fitur",
+                      type: 's2',
+                      color: secondaryColor,
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: defaultMargin,
-                      ),
-                      child: TextWidget(
-                        label: "Status",
-                        type: 's2',
-                        color: secondaryColor,
-                      ),
+                  ),
+                  AlignedGridView.count(
+                    itemCount: features.length,
+                    shrinkWrap: true,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    itemBuilder: (context, index) {
+                      return CardFeature(
+                        data: features[index],
+                      );
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: defaultMargin,
                     ),
-                    StatusCardWidget(),
-                  ],
-                );
-              },
-            )),
+                    child: TextWidget(
+                      label: "Status",
+                      type: 's2',
+                      color: secondaryColor,
+                    ),
+                  ),
+                  StatusCardWidget(),
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:inovilage/network/Network.dart';
 
 class EndPoint {
-
   //Auth
   static register({
     Map<String, dynamic>? body,
@@ -60,8 +59,20 @@ class EndPoint {
   //Pengiriman
 
   //Artikel
+  static getArtikel() async {
+    return Network().get(
+      url: "artikel/list",
+    );
+  }
 
   //Donasi
 
   // Saldo
+
+  //Sampah
+  static getListSampah() async {
+    return Network().get(
+      url: "trash/list",
+    );
+  }
 }

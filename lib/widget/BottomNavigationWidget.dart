@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:inovilage/screen/Artikel/ListArtikelScreen.dart';
 import 'package:inovilage/screen/home/AccountScreen.dart';
 import 'package:inovilage/screen/home/HomeScreen.dart';
 import 'package:inovilage/screen/home/TransactionScreen.dart';
@@ -21,7 +22,7 @@ class BottomNavigationWidget extends StatefulWidget {
 class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   final List<Widget> _pages = [
     const HomeScreen(),
-    const TransactionScreen(),
+    const ListArtikelScreen(),
     const AccountScreen(),
   ];
 
@@ -99,7 +100,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                 Icons.list_alt,
                 color: primaryColor,
               ),
-              label: "Traksaksi",
+              label: "Artikel",
             ),
             BottomNavigationBarItem(
               icon: Icon(

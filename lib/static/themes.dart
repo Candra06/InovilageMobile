@@ -17,3 +17,4 @@ Color greenColor = HexColor('#48AD64');
 Color yellowColor = HexColor('#F6BA41');
 Color transparentColor = Colors.transparent;
 Color fontDisableColor = const Color(0xFF939FC7);
+Color backGroundFeature = HexColor("#D9EEF5");

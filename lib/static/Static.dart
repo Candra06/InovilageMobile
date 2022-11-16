@@ -63,3 +63,46 @@ List<Map<String, dynamic>> jenisSampah = [
     "label": "Iyeh",
   },
 ];
+
+List<Map<String, dynamic>> featuresAdmin = [
+  {
+    "id": 1,
+    "label": "Edit User",
+    "icon": Icon(
+      Icons.people,
+      color: secondaryColor,
+      size: 50,
+    ),
+    "url": Navigation.deliveryFormScreen,
+  },
+  {
+    "id": 2,
+    "label": "Edit Kurir",
+    "icon": Icon(
+      Icons.motorcycle,
+      color: secondaryColor,
+      size: 50,
+    ),
+    "url": Navigation.deliveryFormScreen,
+  },
+  {
+    "id": 3,
+    "label": "Bank Sampah",
+    "icon": Icon(
+      Icons.restore_from_trash,
+      color: secondaryColor,
+      size: 50,
+    ),
+    "url": Navigation.deliveryFormScreen,
+  },
+  {
+    "id": 4,
+    "label": "Edit Artikel",
+    "icon": Icon(
+      Icons.list_alt,
+      color: secondaryColor,
+      size: 50,
+    ),
+    "url": Navigation.listSampahScreen,
+  }
+];

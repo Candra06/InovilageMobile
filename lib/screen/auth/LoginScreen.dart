@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
@@ -77,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
               duration: 5,
               position: 'top',
             );
-            if (response['data']['role'] == 'Pengguna') {
+            if (response['data']['role'] != 'Admin') {
               await Provider.of<AuthProvider>(
                 context,
                 listen: false,
@@ -89,6 +88,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 }
               });
+            } else {
+              Navigator.pushNamed(
+                context,
+                Navigation.homeScreen,
+              );
             }
           }
         });

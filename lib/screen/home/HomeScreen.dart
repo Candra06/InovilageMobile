@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/screen/home/user/LandingAdminScreen.dart';
+import 'package:inovilage/screen/home/user/LandingKurirScreen.dart';
 import 'package:inovilage/screen/home/user/LandingUserScreen.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:provider/provider.dart';
@@ -12,14 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String role = 'Pengguna';
+  String role = 'Admin';
   getRole() async {
     var data = Provider.of<AuthProvider>(
       context,
       listen: false,
     ).authData;
     setState(() {
-      role = data.role.toString();
+      role = data!.role.toString();
       loadContent();
     });
   }
@@ -29,9 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'Pengguna':
         return const LandingUserScreen();
       case 'Kurir':
-        return const LandingUserScreen();
+        return const LandingKurirScreen();
       default:
-        return const LandingUserScreen();
+        return const LandingAdminScreen();
     }
   }
 

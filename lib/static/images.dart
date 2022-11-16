@@ -4,3 +4,6 @@ const String bgAuth = "assets/images/cover/auth.png";
 const String bgBank = "assets/images/cover/bank.png";
 const String bgUser = "assets/images/cover/user.png";
 const String logo = "assets/images/logo.png";
+//icons
+const String iconPengguna = "assets/images/icons/Pengguna.png";
+const String iconKurir = "assets/images/icons/Kurir.png";

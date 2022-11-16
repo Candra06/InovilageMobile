@@ -1,9 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/helper/Pref.dart';
+import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/SampahProvider.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/ImageWidget.dart';
@@ -24,15 +28,25 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushNamed(context, Navigation.loginScreen);
       });
     } else {
+      await Provider.of<SampahProvider>(
+        context,
+        listen: false,
+      ).getListTrash();
+      await Provider.of<ArtikelProvider>(
+        context,
+        listen: false,
+      ).getArtikelList();
       await Provider.of<AuthProvider>(
         context,
         listen: false,
-      ).dashboard();
-      await Provider.of<AuthProvider>(
-        context,
-        listen: false,
-      ).getUserData().then((value) {
+      ).getUserData().then((value) async {
         if (value['code'] == '00') {
+          if (value['data']['role'] != 'Admin') {
+            await Provider.of<AuthProvider>(
+              context,
+              listen: false,
+            ).dashboard();
+          }
           Navigator.pushNamed(context, Navigation.homeScreen);
         }
       });

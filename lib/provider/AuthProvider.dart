@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   AuthModel? _authData;
-  AuthModel get authData => _authData!;
+  AuthModel? get authData => _authData!;
   Map _dataDashboard = {}, _statusKurir = {};
   Map get dataDashboard => _dataDashboard;
   Map get statusKurir => _statusKurir;
