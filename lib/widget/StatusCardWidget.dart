@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
@@ -14,251 +15,298 @@ class StatusCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(builder: (context, auth, child) {
       if (auth.authData!.role == 'Admin') {
-        return Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: defaultMargin,
-          ),
-          margin: EdgeInsets.only(
-            bottom: defaultMargin / 2,
-          ),
-          decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(
-              defaultBorderRadius,
+        return InkWell(
+          onTap: () {
+            if (data['status'] == 'Selesai') {
+              Navigator.pushNamed(
+                context,
+                Navigation.detailPengirimanScreen,
+                arguments: data['id'].toString(),
+              );
+            } else {}
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: defaultMargin,
             ),
-            border: Border.all(
-              color: primaryColor,
+            margin: EdgeInsets.only(
+              bottom: defaultMargin / 2,
             ),
-          ),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: bordergreyColor,
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(
+                defaultBorderRadius,
+              ),
+              border: Border.all(
+                color: primaryColor,
+              ),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: bordergreyColor,
+                      ),
                     ),
                   ),
+                  padding: const EdgeInsets.only(
+                    bottom: 8,
+                  ),
+                  margin: const EdgeInsets.only(
+                    bottom: 8,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWidget(
+                            label: "#${data['kode_transaksi']}",
+                            type: 'l1',
+                            color: fontPrimaryColor,
+                          ),
+                          TextWidget(
+                            label: "${data['alamat_jemput']}",
+                            type: 'l1',
+                            useEllipsis: true,
+                            maxLines: 1,
+                            color: fontPrimaryColor,
+                          ),
+                          TextWidget(
+                            label: "Kurir : ${data['name']}",
+                            type: 'l1',
+                            color: fontPrimaryColor,
+                          )
+                        ],
+                      ),
+                      BadgeWidget(
+                        text: "${data['status']}",
+                        type: 'small',
+                      ),
+                    ],
+                  ),
                 ),
-                padding: const EdgeInsets.only(
-                  bottom: 8,
-                ),
-                margin: const EdgeInsets.only(
-                  bottom: 8,
-                ),
-                child: Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(
-                          label: "#${data['kode_transaksi']}",
-                          type: 'l1',
+                          label:
+                              "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
                           color: fontPrimaryColor,
+                          type: 'l1',
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                          ),
+                          child: TextWidget(
+                            label: "Jenis : ${data['jenis_sampah']}",
+                            color: fontPrimaryColor,
+                            type: 'l1',
+                          ),
                         ),
                         TextWidget(
-                          label: "${data['alamat_jemput']}",
-                          type: 'l1',
-                          useEllipsis: true,
-                          maxLines: 1,
+                          label: "Tujuan : Bank Sampah YASINAT",
                           color: fontPrimaryColor,
+                          type: 'l1',
                         ),
-                        TextWidget(
-                          label: "Kurir : ${data['name']}",
-                          type: 'l1',
-                          color: fontPrimaryColor,
-                        )
                       ],
-                    ),
-                    BadgeWidget(
-                      text: "${data['status']}",
-                      type: 'small',
                     ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextWidget(
-                        label:
-                            "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
-                        color: fontPrimaryColor,
-                        type: 'l1',
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                        ),
-                        child: TextWidget(
-                          label: "Jenis : ${data['jenis_sampah']}",
-                          color: fontPrimaryColor,
-                          type: 'l1',
-                        ),
-                      ),
-                      TextWidget(
-                        label: "Tujuan : Bank Sampah YASINAT",
-                        color: fontPrimaryColor,
-                        type: 'l1',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         );
       } else if (auth.authData!.role == 'Kurir') {
-        return Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: defaultMargin,
-          ),
-          margin: EdgeInsets.only(
-            bottom: defaultMargin / 2,
-          ),
-          decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(
-              defaultBorderRadius,
+        return InkWell(
+          onTap: () {
+            if (data['status'] == 'Selesai') {
+              Navigator.pushNamed(
+                context,
+                Navigation.detailPengirimanScreen,
+                arguments: data['id'].toString(),
+              );
+            } else {
+              Navigator.pushNamed(
+                context,
+                Navigation.addItemPengirimanScreen,
+                arguments: data['id'].toString(),
+              );
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: defaultMargin,
             ),
-            border: Border.all(
-              color: primaryColor,
+            margin: EdgeInsets.only(
+              bottom: defaultMargin / 2,
             ),
-          ),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: bordergreyColor,
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(
+                defaultBorderRadius,
+              ),
+              border: Border.all(
+                color: primaryColor,
+              ),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: bordergreyColor,
+                      ),
                     ),
                   ),
+                  padding: const EdgeInsets.only(
+                    bottom: 8,
+                  ),
+                  margin: const EdgeInsets.only(
+                    bottom: 8,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWidget(
+                            label: "#${data['kode_transaksi']}",
+                            type: 'l1',
+                            color: fontPrimaryColor,
+                          ),
+                          TextWidget(
+                            label: "${data['alamat_jemput']}",
+                            type: 'l1',
+                            useEllipsis: true,
+                            textOverflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            color: fontPrimaryColor,
+                          ),
+                        ],
+                      ),
+                      BadgeWidget(
+                        text: "${data['status']}",
+                        type: 'small',
+                      ),
+                    ],
+                  ),
                 ),
-                padding: const EdgeInsets.only(
-                  bottom: 8,
-                ),
-                margin: const EdgeInsets.only(
-                  bottom: 8,
-                ),
-                child: Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(
-                          label: "#${data['kode_transaksi']}",
-                          type: 'l1',
+                          label:
+                              "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
                           color: fontPrimaryColor,
+                          type: 'l1',
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                          ),
+                          child: TextWidget(
+                            label: "Jenis : ${data['jenis_sampah']}",
+                            color: fontPrimaryColor,
+                            type: 'l1',
+                          ),
                         ),
                         TextWidget(
-                          label: "${data['alamat_jemput']}",
-                          type: 'l1',
-                          useEllipsis: true,
-                          maxLines: 1,
+                          label: "Tujuan : Bank Sampah YASINAT",
                           color: fontPrimaryColor,
+                          type: 'l1',
                         ),
                       ],
                     ),
-                    BadgeWidget(
-                      text: "${data['status']}",
-                      type: 'small',
-                    ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextWidget(
-                        label:
-                            "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
-                        color: fontPrimaryColor,
-                        type: 'l1',
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                        ),
-                        child: TextWidget(
-                          label: "Jenis : ${data['jenis_sampah']}",
-                          color: fontPrimaryColor,
-                          type: 'l1',
-                        ),
-                      ),
-                      TextWidget(
-                        label: "Tujuan : Bank Sampah YASINAT",
-                        color: fontPrimaryColor,
-                        type: 'l1',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         );
       } else {
-        return Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: defaultMargin,
-          ),
-          margin: EdgeInsets.only(
-            bottom: defaultMargin / 2,
-          ),
-          decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(
-              defaultBorderRadius,
+        return InkWell(
+          onTap: () {
+            if (data['status'] == 'Selesai') {
+              Navigator.pushNamed(
+                context,
+                Navigation.detailPengirimanScreen,
+                arguments: data['id'].toString(),
+              );
+            } else {
+              Navigator.pushNamed(
+                context,
+                Navigation.detailPengirimanScreen,
+                arguments: data['id'].toString(),
+              );
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: defaultMargin,
             ),
-            border: Border.all(
-              color: primaryColor,
+            margin: EdgeInsets.only(
+              bottom: defaultMargin / 2,
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextWidget(
-                    label: "Tanggal : 01 Juli 2022 - 09 : 00",
-                    color: fontPrimaryColor,
-                    type: 'l1',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 4,
-                    ),
-                    child: TextWidget(
-                      label: "Jenis : Sampah Organik",
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(
+                defaultBorderRadius,
+              ),
+              border: Border.all(
+                color: primaryColor,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextWidget(
+                      label:
+                          "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
                       color: fontPrimaryColor,
                       type: 'l1',
                     ),
-                  ),
-                  TextWidget(
-                    label: "Tujuan : Bank Sampah YASINAT",
-                    color: fontPrimaryColor,
-                    type: 'l1',
-                  ),
-                ],
-              ),
-              const BadgeWidget(
-                text: "Sukses",
-                type: 'small',
-              ),
-            ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 4,
+                      ),
+                      child: TextWidget(
+                        label: "Jenis : ${data['jenis_sampah']}",
+                        color: fontPrimaryColor,
+                        type: 'l1',
+                      ),
+                    ),
+                    TextWidget(
+                      label: "Tujuan : Bank Sampah YASINAT",
+                      color: fontPrimaryColor,
+                      type: 'l1',
+                    ),
+                  ],
+                ),
+                BadgeWidget(
+                  text: "${data['status']}",
+                  type: 'small',
+                ),
+              ],
+            ),
           ),
         );
       }

@@ -18,7 +18,8 @@ class ListArtikelScreenMaster extends StatefulWidget {
   const ListArtikelScreenMaster({Key? key}) : super(key: key);
 
   @override
-  State<ListArtikelScreenMaster> createState() => _ListArtikelScreenMasterState();
+  State<ListArtikelScreenMaster> createState() =>
+      _ListArtikelScreenMasterState();
 }
 
 class _ListArtikelScreenMasterState extends State<ListArtikelScreenMaster> {
@@ -98,7 +99,7 @@ class _ListArtikelScreenMasterState extends State<ListArtikelScreenMaster> {
                                 shrinkWrap: true,
                                 itemCount: dataArtikel.length,
                                 itemBuilder: (context, index) {
-                                  Map item = dataArtikel[index];
+                                  Map item = dataArtikel[index].toJson();
                                   return CardArtikelWidget(
                                     title: item['judul'],
                                     onPressed: () {},

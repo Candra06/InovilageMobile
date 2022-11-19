@@ -234,9 +234,9 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: pengiriman.length,
+                    itemCount: dashboard['order'].length,
                     itemBuilder: (context, index) {
-                      Map item = pengiriman[index];
+                      Map item = dashboard['order'][index];
                       return StatusCardWidget(
                         data: item,
                       );

@@ -19,3 +19,4 @@ Color yellowColor = HexColor('#F6BA41');
 Color transparentColor = Colors.transparent;
 Color fontDisableColor = const Color(0xFF939FC7);
 Color backGroundFeature = HexColor("#D9EEF5");
+Color greyCardCOlor = HexColor("#F5F5F5");

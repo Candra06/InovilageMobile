@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/HeaderWidger.dart';
 import 'package:inovilage/widget/LoadingWidget.dart';
 import 'package:inovilage/widget/StatusCardWidget.dart';
+import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';
 
-class TransactionScreen extends StatefulWidget {
-  const TransactionScreen({Key? key}) : super(key: key);
+class ListDonasiScreen extends StatefulWidget {
+  const ListDonasiScreen({Key? key}) : super(key: key);
 
   @override
-  State<TransactionScreen> createState() => _TransactionScreenState();
+  State<ListDonasiScreen> createState() => _ListDonasiScreenState();
 }
 
-class _TransactionScreenState extends State<TransactionScreen> {
+class _ListDonasiScreenState extends State<ListDonasiScreen> {
   getData() async {
-    await Provider.of<PengirimanProvider>(
+    await Provider.of<DonasiProvider>(
       context,
       listen: false,
     ).getListPengiriman();
@@ -42,25 +45,18 @@ class _TransactionScreenState extends State<TransactionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Consumer<AuthProvider>(
-                builder: (context, value, child) {
-                  if (value.authData!.role == 'Pengguna') {
-                    return const HeaderWidget(
-                      title: "List Transaki Pengiriman",
-                      hideBackPress: false,
-                    );
-                  } else {
-                    return const HeaderWidget(
-                      title: "List Transaki Pengiriman",
-                      hideBackPress: true,
-                    );
-                  }
-                },
+              const HeaderWidget(
+                title: "List Transaki Donasi",
+                hideBackPress: false,
               ),
               const SizedBox(
                 height: 24,
               ),
-              Consumer<PengirimanProvider>(
+              buttonAdd(),
+              SizedBox(
+                height: defaultMargin,
+              ),
+              Consumer<DonasiProvider>(
                 builder: (context, value, child) {
                   if (value.loadingList) {
                     return const Center(
@@ -68,11 +64,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     );
                   }
                   return ListView.builder(
-                    itemCount: value.listPengiriman.length,
+                    itemCount: value.listDonasi.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      Map item = value.listPengiriman[index].toJson();
+                      Map item = value.listDonasi[index].toJson();
                       return StatusCardWidget(data: item);
                     },
                   );
@@ -80,6 +76,38 @@ class _TransactionScreenState extends State<TransactionScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonAdd() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Navigation.formDonasiScreen,
+          arguments: {
+            "typepage": "add",
+          },
+        );
+      },
+      child: Container(
+        width: 140,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              defaultBorderRadius,
+            ),
+          ),
+        ),
+        alignment: Alignment.center,
+        child: TextWidget(
+          label: "Ajukan Donasi",
+          color: whiteColor,
+          weight: 'medium',
         ),
       ),
     );

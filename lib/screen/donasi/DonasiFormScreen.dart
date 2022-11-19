@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/Static.dart';
@@ -17,14 +18,14 @@ import 'package:inovilage/widget/TextWidget.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:provider/provider.dart';
 
-class DeliveryFormScreen extends StatefulWidget {
-  const DeliveryFormScreen({Key? key}) : super(key: key);
+class DonasiFormScreen extends StatefulWidget {
+  const DonasiFormScreen({Key? key}) : super(key: key);
 
   @override
-  State<DeliveryFormScreen> createState() => _DeliveryFormScreenState();
+  State<DonasiFormScreen> createState() => _DonasiFormScreenState();
 }
 
-class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
+class _DonasiFormScreenState extends State<DonasiFormScreen> {
   TextEditingController nameController = TextEditingController(),
       phoneController = TextEditingController(),
       addressController = TextEditingController(),
@@ -84,7 +85,7 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
       "jenis_sampah": typeController.text,
     };
     print(body);
-    await Provider.of<PengirimanProvider>(
+    await Provider.of<DonasiProvider>(
       context,
       listen: false,
     )
@@ -97,7 +98,7 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
           context,
           'Success',
           type: 'success',
-          subtitle: 'Berhasil mengirim order',
+          subtitle: 'Berhasil mengirim donasi',
           position: 'top',
           duration: 5,
         );
@@ -153,7 +154,7 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
           child: Column(
             children: [
               const HeaderWidget(
-                title: "Ajukan Pengiriman Sampah",
+                title: "Ajukan Donasi Sampah",
               ),
               Container(
                 width: double.infinity,
@@ -225,10 +226,12 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
                   center: LatLong(lat, long),
                   buttonColor: primaryColor,
                   buttonText: 'Pilih Lokasi',
-                  onPicked: (pickedData) {
-                    lat = pickedData.latLong.latitude;
-                    long = pickedData.latLong.longitude;
-                    addressController.text = pickedData.address.toString();
+                  onPicked: (pickedData) async {
+                    setState(() {
+                      lat = pickedData.latLong.latitude;
+                      long = pickedData.latLong.longitude;
+                      addressController.text = pickedData.address.toString();
+                    });
                   },
                 ),
               ),
@@ -280,7 +283,7 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
                   vertical: 24,
                 ),
                 child: ButtonWidget(
-                  label: "Ajukan Donasi",
+                  label: "Ajukan Pengiriman Sampah",
                   isLoading: loading,
                   theme: loading ? 'disable' : 'primary',
                   onPressed: () {

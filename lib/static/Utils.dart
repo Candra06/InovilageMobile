@@ -18,6 +18,18 @@ String dateFormatDay(
   }
 }
 
+String formatHtmlString(String string) {
+  return string
+      .replaceAll("<p>", "\n\n")
+      .replaceAll("<br>", "\n")
+      .replaceAll("&quot;", "\"")
+      .replaceAll("&apos;", "'")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&gt;", ">")
+      .replaceAll("&amp;", "&")
+      .trim();
+}
+
 String formatrupiah({String amount = "0", String awalan = "RP"}) {
   try {
     final oCcy = NumberFormat("#,##0", "id_ID");

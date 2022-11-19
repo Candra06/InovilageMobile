@@ -10,7 +10,7 @@ class TextWidget extends StatelessWidget {
   final TextOverflow textOverflow;
   final int maxLines;
   final TextDecoration textDecoration;
-
+  final double ellipsisParentWidth;
   const TextWidget({
     Key? key,
     required this.label,
@@ -23,6 +23,7 @@ class TextWidget extends StatelessWidget {
     this.textOverflow = TextOverflow.visible,
     this.maxLines = 10,
     this.textDecoration = TextDecoration.none,
+    this.ellipsisParentWidth = 200,
   }) : super(key: key);
 
   int generateType() {
@@ -71,19 +72,37 @@ class TextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      !upperCase ? label : label.toUpperCase(),
-      textAlign: textAlign,
-      overflow: textOverflow,
-      maxLines: maxLines,
-      style: GoogleFonts.inter(
-        textStyle: TextStyle(
-          fontSize: generateType().toDouble(),
-          color: color ?? fontPrimaryColor,
-          fontWeight: generateFontWeight(),
-          decoration: textDecoration,
-        ),
-      ),
-    );
+    return useEllipsis
+        ? SizedBox(
+            width: ellipsisParentWidth,
+            child: Text(
+              !upperCase ? label : label.toUpperCase(),
+              textAlign: textAlign,
+              overflow: textOverflow,
+              maxLines: maxLines,
+              style: GoogleFonts.inter(
+                textStyle: TextStyle(
+                  fontSize: generateType().toDouble(),
+                  color: color ?? fontPrimaryColor,
+                  fontWeight: generateFontWeight(),
+                  decoration: textDecoration,
+                ),
+              ),
+            ),
+          )
+        : Text(
+            !upperCase ? label : label.toUpperCase(),
+            textAlign: textAlign,
+            overflow: textOverflow,
+            maxLines: maxLines,
+            style: GoogleFonts.inter(
+              textStyle: TextStyle(
+                fontSize: generateType().toDouble(),
+                color: color ?? fontPrimaryColor,
+                fontWeight: generateFontWeight(),
+                decoration: textDecoration,
+              ),
+            ),
+          );
   }
 }

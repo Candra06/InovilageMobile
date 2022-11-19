@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/model/AuthModel.dart';
 import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
@@ -105,18 +106,25 @@ class _ListArtikelScreenState extends State<ListArtikelScreen> {
                     color: secondaryColor,
                     type: 's2',
                   ),
-                  const SizedBox(
-                    height: 24,
+                  SizedBox(
+                    height: defaultMargin,
                   ),
                   ListView.builder(
+                    padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: dataArtikel.length,
                     itemBuilder: (context, index) {
-                      Map item = dataArtikel[index];
+                      Map item = dataArtikel[index].toJson();
                       return CardArtikelWidget(
                         title: item['judul'],
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            Navigation.detailArtikelScreen,
+                            arguments: item['id'].toString(),
+                          );
+                        },
                       );
                     },
                   ),

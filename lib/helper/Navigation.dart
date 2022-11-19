@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inovilage/screen/Artikel/DetailArtikelScreen.dart';
 import 'package:inovilage/screen/Artikel/FormArtikelScreen.dart';
 import 'package:inovilage/screen/Artikel/ListArtikelScreenMaster.dart';
 import 'package:inovilage/screen/Users/FormUsersScreen.dart';
@@ -7,7 +8,11 @@ import 'package:inovilage/screen/auth/ChangeProfileScreen.dart';
 import 'package:inovilage/screen/auth/LoginScreen.dart';
 import 'package:inovilage/screen/auth/RegisterScreen.dart';
 import 'package:inovilage/screen/auth/SplashScreen.dart';
+import 'package:inovilage/screen/delivery/AddItemScreen.dart';
 import 'package:inovilage/screen/delivery/DeliveryFormScreen.dart';
+import 'package:inovilage/screen/delivery/DetailPengirimanScreen.dart';
+import 'package:inovilage/screen/donasi/DonasiFormScreen.dart';
+import 'package:inovilage/screen/donasi/ListDonasiScreen.dart';
 import 'package:inovilage/screen/home/AccountScreen.dart';
 import 'package:inovilage/screen/home/TransactionScreen.dart';
 import 'package:inovilage/screen/trash/FormTrashScree.dart';
@@ -31,6 +36,11 @@ class Navigation {
   static const formUsersScreen = '/FormUsersScreen';
   static const formArtikelScreen = '/FormArtikelScreen';
   static const listArtikelScreen = '/ListArtikelScreen';
+  static const listDonasiScreen = '/ListDonasiScreen';
+  static const formDonasiScreen = '/formDonasiScreen';
+  static const detailArtikelScreen = '/detailArtikelScreen';
+  static const detailPengirimanScreen = '/detailPengirimanScreen';
+  static const addItemPengirimanScreen = '/addItemPengirimanScreen';
 
   static Route<dynamic>? generateRoute(RouteSettings? settings) {
     switch (settings!.name) {
@@ -94,6 +104,17 @@ class Navigation {
           type: PageTransitionType.rightToLeft,
           settings: settings,
         );
+      case listDonasiScreen:
+        return PageTransition(
+          child: const ListDonasiScreen(),
+          type: PageTransitionType.rightToLeft,
+        );
+      case formDonasiScreen:
+        return PageTransition(
+          child: const DonasiFormScreen(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
       case listUsersScreen:
         return PageTransition(
           child: const ListUsersScreen(),
@@ -115,6 +136,30 @@ class Navigation {
       case listArtikelScreen:
         return PageTransition(
           child: const ListArtikelScreenMaster(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case detailArtikelScreen:
+        return PageTransition(
+          child: DetailArtikelScreen(
+            id: settings.arguments as String,
+          ),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case detailPengirimanScreen:
+        return PageTransition(
+          child: DetailPengirimanScreen(
+            id: settings.arguments as String,
+          ),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case addItemPengirimanScreen:
+        return PageTransition(
+          child: AddItemScreen(
+            id: settings.arguments as String,
+          ),
           type: PageTransitionType.rightToLeft,
           settings: settings,
         );

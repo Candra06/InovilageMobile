@@ -116,8 +116,53 @@ class EndPoint {
       url: "artikel/list",
     );
   }
+  static getDetailArtikel(String id) async {
+    return Network().get(
+      url: "artikel/detail/$id",
+    );
+  }
 
   //Donasi
+  static getListdonasi() async {
+    return Network().get(
+      url: "donasi/history",
+    );
+  }
+
+  static getDetaildonasi(
+    String id,
+  ) async {
+    return Network().get(
+      url: "donasi/detail/$id",
+    );
+  }
+
+  static requestdonasi(
+    Map<String, dynamic> body,
+  ) async {
+    return Network().post(
+      url: "donasi/addDonasi",
+      body: body,
+    );
+  }
+
+  static addItemdonasi(
+    Map<String, dynamic> body,
+    String id,
+  ) async {
+    return Network().post(
+      url: "donasi/addItem/$id",
+      body: body,
+    );
+  }
+
+  static confirmdonasi(
+    String id,
+  ) async {
+    return Network().post(
+      url: "donasi/confirm/$id",
+    );
+  }
 
   // Saldo
 

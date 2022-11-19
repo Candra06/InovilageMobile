@@ -33,7 +33,7 @@ class _CardArtikelWidgetState extends State<CardArtikelWidget> {
           defaultMargin,
         ),
         margin: const EdgeInsets.symmetric(
-          vertical: 24,
+          vertical: 8,
         ),
         child: Row(
           children: [
@@ -43,9 +43,10 @@ class _CardArtikelWidgetState extends State<CardArtikelWidget> {
               ),
             ),
             TextWidget(
-              label: "Ayo kirimkan\nsampahmu melalui\naplikasi XSAMP !",
+              label: widget.title,
               color: whiteColor,
               weight: "bold",
+              maxLines: 3,
               textAlign: TextAlign.center,
             ),
           ],

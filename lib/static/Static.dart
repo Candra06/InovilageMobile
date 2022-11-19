@@ -21,7 +21,7 @@ List<Map<String, dynamic>> features = [
       color: secondaryColor,
       size: 50,
     ),
-    "url": Navigation.deliveryFormScreen,
+    "url": Navigation.transacTionScreen,
   },
   {
     "id": 3,
@@ -31,7 +31,7 @@ List<Map<String, dynamic>> features = [
       color: secondaryColor,
       size: 50,
     ),
-    "url": Navigation.deliveryFormScreen,
+    "url": Navigation.listDonasiScreen,
   },
   {
     "id": 4,
@@ -53,6 +53,10 @@ List<Map<String, dynamic>> jenisSampah = [
   {
     "id": 2,
     "label": "Anorganik",
+  },
+  {
+    "id": 3,
+    "label": "Organik dan Anorganik",
   },
 ];
 
