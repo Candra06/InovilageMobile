@@ -23,9 +23,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   getToken() async {
     var token = await Pref.getToken();
-    if (token.toString().isEmpty) {
+    print(token);
+    if (token.toString().isEmpty || token == null) {
       Timer(const Duration(seconds: 2), () {
-        Navigator.pushNamed(context, Navigation.loginScreen);
+        Navigator.pushNamed(
+          context,
+          Navigation.loginScreen,
+        );
       });
     } else {
       await Provider.of<SampahProvider>(
@@ -41,13 +45,19 @@ class _SplashScreenState extends State<SplashScreen> {
         listen: false,
       ).getUserData().then((value) async {
         if (value['code'] == '00') {
-          if (value['data']['role'] != 'Admin') {
-            await Provider.of<AuthProvider>(
-              context,
-              listen: false,
-            ).dashboard();
-          }
-          Navigator.pushNamed(context, Navigation.homeScreen);
+          await Provider.of<AuthProvider>(
+            context,
+            listen: false,
+          ).dashboard().then((req) {
+            if (req['code'] == '00') {
+              if (value['data']['role'] == 'Pengguna') {
+                Navigator.pushNamed(context, Navigation.homeScreen);
+              } else {
+                Navigator.pushNamed(context, Navigation.homeScreenAdmin);
+              }
+            }
+          });
+          // }
         }
       });
     }

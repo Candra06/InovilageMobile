@@ -119,3 +119,117 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 }
+
+class BottomNavigationAdminWidget extends StatefulWidget {
+  int selectedIndex;
+  BottomNavigationAdminWidget({
+    Key? key,
+    this.selectedIndex = 0,
+  }) : super(key: key);
+
+  @override
+  State<BottomNavigationAdminWidget> createState() =>
+      _BottomNavigationAdminWidgetState();
+}
+
+class _BottomNavigationAdminWidgetState
+    extends State<BottomNavigationAdminWidget> {
+  final List<Widget> _pages = [
+    const HomeScreen(),
+    const TransactionScreen(),
+    const AccountScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      widget.selectedIndex = index;
+    });
+  }
+
+  onPressBottomTop() async {
+    exit(0);
+  }
+
+  onPressButtonBottom() async {
+    Navigator.pop(context);
+  }
+
+  Future<bool> onWillPop() async {
+    return (await showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return ModalOptionWidget(
+              title: "confirmTitle",
+              subtitle: "confirmClose",
+              titleButtonTop: 'confirm.yes',
+              titleButtonBottom: 'confirm.no',
+              onPressButtonTop: onPressBottomTop,
+              onPressButtonBottom: onPressButtonBottom,
+              imageTopHeight: 125,
+              textAlign: TextAlign.center,
+              axisText: CrossAxisAlignment.center,
+              alignmentText: Alignment.center,
+            );
+          },
+        )) ??
+        false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        body: _pages.elementAt(widget.selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: whiteColor,
+          selectedFontSize: 12,
+          selectedItemColor: fontPrimaryColor,
+          selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            height: 1.5,
+          ),
+          currentIndex: widget.selectedIndex, //New
+          onTap: _onItemTapped,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home_outlined,
+                color: fontPrimaryColor,
+              ),
+              activeIcon: Icon(
+                Icons.home,
+                color: primaryColor,
+              ),
+              label: "Beranda",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.list_alt_outlined,
+                color: fontPrimaryColor,
+              ),
+              activeIcon: Icon(
+                Icons.list_alt,
+                color: primaryColor,
+              ),
+              label: "Transaksi Order",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_circle_outlined,
+                color: fontPrimaryColor,
+              ),
+              activeIcon: Icon(
+                Icons.account_circle,
+                color: primaryColor,
+              ),
+              label: "Akun",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -7,6 +7,7 @@ class ButtonWidget extends StatelessWidget {
   final double height, width;
   final String theme, label, type;
   final Function onPressed;
+  final Icon? icons;
   const ButtonWidget({
     Key? key,
     this.isLoading = false,
@@ -17,6 +18,7 @@ class ButtonWidget extends StatelessWidget {
     this.upperCase = false,
     required this.label,
     required this.onPressed,
+    this.icons,
   }) : super(key: key);
 
   generateColor() {
@@ -25,6 +27,8 @@ class ButtonWidget extends StatelessWidget {
         return primaryColor;
       case 'disable':
         return disableColor;
+      case 'secondary':
+        return secondaryColor;
       default:
         return primaryColor;
     }
@@ -106,11 +110,17 @@ class ButtonWidget extends StatelessWidget {
                       )
                     ],
                   )
-                : TextWidget(
-                    label: label,
-                    upperCase: upperCase,
-                    weight: 'bold',
-                    color: generateFontColor(),
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      icons != null ? icons! : const SizedBox(),
+                      TextWidget(
+                        label: label,
+                        upperCase: upperCase,
+                        weight: 'bold',
+                        color: generateFontColor(),
+                      ),
+                    ],
                   ),
           ),
         ),

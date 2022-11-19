@@ -13,18 +13,24 @@ class AuthProvider with ChangeNotifier {
   Map get statusKurir => _statusKurir;
   bool _loading = false;
   bool get loading => _loading;
+  List<AuthModel> _listKurir = [], _listPengguna = [];
+  List<AuthModel> get listKurir => _listKurir;
+  List<AuthModel> get listPengguna => _listPengguna;
 
   Future<Map<String, dynamic>> register({
     required Map<String, dynamic> body,
+    bool saveData = false,
   }) async {
     try {
       var request = await EndPoint.register(
         body: body,
       );
       if (request['code'] == '00') {
-        _authData = AuthModel.fromJson(request['data']);
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('token', "Bearer ${request['access_token']}");
+        if (saveData) {
+          _authData = AuthModel.fromJson(request['data']);
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setString('token', "Bearer ${request['access_token']}");
+        }
       }
       notifyListeners();
       return request;
@@ -77,6 +83,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<Map<String, dynamic>> updateProfil({
     required Map<String, dynamic> body,
+    
   }) async {
     try {
       var request = await EndPoint.updateProfil(
@@ -114,11 +121,40 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> listUser() async {
+    _listKurir = [];
+    _listPengguna = [];
+    notifyListeners();
+    try {
+      AuthModel tmpData;
+      var request = await EndPoint.getListUser();
+      if (request['code'] == '00') {
+        for (var element in request['data']) {
+          if (element['role'] == 'Kurir') {
+            tmpData = AuthModel.fromJson(element);
+            _listKurir.add(tmpData);
+          } else if (element['role'] == 'Pengguna') {
+            tmpData = AuthModel.fromJson(element);
+            _listPengguna.add(tmpData);
+          }
+        }
+      }
+      notifyListeners();
+      return request;
+    } catch (e) {
+      return {
+        "code": Network().codeError,
+        "message": e.toString(),
+      };
+    }
+  }
+
   Future<Map<String, dynamic>> dashboard() async {
     _loading = true;
     notifyListeners();
     try {
       var request = await EndPoint.dashboard();
+
       if (request['code'] == '00') {
         _dataDashboard = request['data'];
       }

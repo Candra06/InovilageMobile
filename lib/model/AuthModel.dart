@@ -3,6 +3,8 @@ class AuthModel {
     this.name,
     this.email,
     this.phone,
+    this.latAddress,
+    this.longAddress,
     this.status,
     this.role,
     this.alamat,
@@ -12,7 +14,7 @@ class AuthModel {
     this.id,
   });
 
-  String? name, email, phone, status, role, alamat;
+  String? name, email, phone, status, role, alamat, latAddress, longAddress;
   DateTime? updatedAt, createdAt;
   int? saldo, id;
 
@@ -23,6 +25,8 @@ class AuthModel {
         status: json["status"] ?? "",
         role: json["role"] ?? "",
         alamat: json["alamat"] ?? "",
+        latAddress: json["lat_address"] ?? "",
+        longAddress: json["long_address"] ?? "",
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
@@ -38,6 +42,8 @@ class AuthModel {
         "email": email ?? "",
         "phone": phone ?? "",
         "status": status ?? "",
+        "lat_ddress": latAddress ?? "",
+        "long_address": longAddress ?? "",
         "role": role ?? "User",
         "alamat": alamat ?? "",
         "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),

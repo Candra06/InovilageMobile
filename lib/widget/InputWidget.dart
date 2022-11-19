@@ -10,7 +10,7 @@ class InputWidget extends StatefulWidget {
   final TextInputType? type;
   final TextEditingController? controller;
   final String errText, typeInput;
-  final Color? readOnlyColorCustom, colorTextError;
+  final Color? readOnlyColorCustom, colorTextError, background;
   final void Function()? onPress;
   final void Function(String)? onChanged;
   final String border, customTypeText;
@@ -46,6 +46,7 @@ class InputWidget extends StatefulWidget {
     this.customTypeText = 'b1',
     this.specialRules = '',
     this.isSearch = false,
+    this.background,
   }) : super(key: key);
 
   @override
@@ -188,7 +189,9 @@ class _InputWidgetState extends State<InputWidget> {
                 decoration: BoxDecoration(
                   color: widget.readonly == true
                       ? (widget.readOnlyColorCustom ?? disableColor)
-                      : whiteColor,
+                      : widget.background != null
+                          ? widget.background!
+                          : whiteColor,
                   borderRadius:
                       widget.border == 'all' ? BorderRadius.circular(5) : null,
                   border: _borderInput(),

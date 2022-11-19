@@ -231,7 +231,17 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
                       color: secondaryColor,
                     ),
                   ),
-                  StatusCardWidget(),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: pengiriman.length,
+                    itemBuilder: (context, index) {
+                      Map item = pengiriman[index];
+                      return StatusCardWidget(
+                        data: item,
+                      );
+                    },
+                  )
                 ],
               );
             },

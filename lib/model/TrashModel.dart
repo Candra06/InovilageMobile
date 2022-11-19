@@ -9,13 +9,13 @@ class TrashModel {
     this.updatedAt,
   });
 
-  int? id, harga;
-  String? jenis, nama, satuan;
+  int? id;
+  String? jenis, nama, satuan, harga;
   DateTime? createdAt, updatedAt;
 
   factory TrashModel.fromJson(Map<String, dynamic> json) => TrashModel(
         id: json["id"] ?? 0,
-        harga: json["harga"] ?? 0,
+        harga: json["harga"] ?? "",
         jenis: json["jenis"] ?? "",
         nama: json["nama"] ?? "",
         satuan: json["satuan"] ?? "",

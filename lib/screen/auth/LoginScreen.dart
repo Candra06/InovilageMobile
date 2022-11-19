@@ -76,24 +76,24 @@ class _LoginScreenState extends State<LoginScreen> {
               duration: 5,
               position: 'top',
             );
-            if (response['data']['role'] != 'Admin') {
-              await Provider.of<AuthProvider>(
-                context,
-                listen: false,
-              ).dashboard().then((resp) {
-                if (resp['code'] == '00') {
+            await Provider.of<AuthProvider>(
+              context,
+              listen: false,
+            ).dashboard().then((resp) {
+              if (resp['code'] == '00') {
+                if (response['data']['role'] == 'Pengguna') {
                   Navigator.pushNamed(
                     context,
                     Navigation.homeScreen,
                   );
+                } else {
+                  Navigator.pushNamed(
+                    context,
+                    Navigation.homeScreenAdmin,
+                  );
                 }
-              });
-            } else {
-              Navigator.pushNamed(
-                context,
-                Navigation.homeScreen,
-              );
-            }
+              }
+            });
           }
         });
       } else {

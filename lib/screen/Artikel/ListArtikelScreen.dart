@@ -89,11 +89,11 @@ class _ListArtikelScreenState extends State<ListArtikelScreen> {
                     ],
                   ),
                   InputWidget(
-                    title: "",
-                    hintText: "Search",
+                    title: "hidden",
+                    hintText: "Cari",
+                    background: lightPrimaryColor,
+                    border: 'none',
                     iconLeft: Icons.search,
-                    isSearch: true,
-                    controller: searchController,
                     onChanged: searchInputOnChange,
                   ),
                   const SizedBox(

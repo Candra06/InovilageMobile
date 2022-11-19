@@ -40,8 +40,8 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: Padding(
+      child: Scaffold(
+        body: Padding(
           padding: EdgeInsets.all(
             defaultMargin,
           ),
@@ -51,6 +51,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 children: [
                   const HeaderWidget(
                     title: "Profile",
+                    hideBackPress: true,
                   ),
                   SizedBox(
                     height: defaultMargin * 3,
@@ -64,7 +65,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     height: 24,
                   ),
                   TextWidget(
-                    label: "Username",
+                    label: "${user.authData!.role}",
                     weight: 'bold',
                     color: secondaryColor,
                     type: 's1',
@@ -81,34 +82,42 @@ class _AccountScreenState extends State<AccountScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: defaultMargin,
-                      horizontal: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(
-                          defaultBorderRadius,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        Navigation.changeProfileScreen,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: defaultMargin,
+                        horizontal: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            defaultBorderRadius,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: primaryColor,
                         ),
                       ),
-                      border: Border.all(
-                        color: primaryColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextWidget(
+                            label: "Edit Profil",
+                            type: 'l1',
+                            color: fontPrimaryColor,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: fontSecondaryColor,
+                          )
+                        ],
                       ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextWidget(
-                          label: "Edit Profil",
-                          type: 'l1',
-                          color: fontPrimaryColor,
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: fontSecondaryColor,
-                        )
-                      ],
                     ),
                   ),
                   const SizedBox(
@@ -198,7 +207,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 ],
               );
             },
-          )),
-    ));
+          ),
+        ),
+      ),
+    );
   }
 }

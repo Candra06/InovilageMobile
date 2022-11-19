@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inovilage/screen/Artikel/FormArtikelScreen.dart';
+import 'package:inovilage/screen/Artikel/ListArtikelScreenMaster.dart';
+import 'package:inovilage/screen/Users/FormUsersScreen.dart';
+import 'package:inovilage/screen/Users/ListUsersScreen.dart';
+import 'package:inovilage/screen/auth/ChangeProfileScreen.dart';
 import 'package:inovilage/screen/auth/LoginScreen.dart';
 import 'package:inovilage/screen/auth/RegisterScreen.dart';
 import 'package:inovilage/screen/auth/SplashScreen.dart';
@@ -14,10 +19,16 @@ class Navigation {
   static const loginScreen = '/loginScreen';
   static const registerScreen = '/registerScreen';
   static const homeScreen = '/homeScreen';
+  static const homeScreenAdmin = '/homeScreenAdmin';
+  static const changeProfileScreen = '/changeProfileScreen';
   static const transacTionScreen = '/transacTionScreen';
   static const accountScreen = '/accountScreen';
   static const deliveryFormScreen = '/deliveryFormScreen';
   static const listSampahScreen = '/listSampahScreen';
+  static const listUsersScreen = '/ListUsersScreen';
+  static const formUsersScreen = '/FormUsersScreen';
+  static const formArtikelScreen = '/FormArtikelScreen';
+  static const listArtikelScreen = '/ListArtikelScreen';
 
   static Route<dynamic>? generateRoute(RouteSettings? settings) {
     switch (settings!.name) {
@@ -36,9 +47,21 @@ class Navigation {
           child: const RegisterScreen(),
           type: PageTransitionType.rightToLeft,
         );
+      case changeProfileScreen:
+        return PageTransition(
+          child: const ChangeProfileScreen(),
+          type: PageTransitionType.rightToLeft,
+        );
       case homeScreen:
         return PageTransition(
           child: BottomNavigationWidget(
+            selectedIndex: int.tryParse(settings.arguments.toString()) ?? 0,
+          ),
+          type: PageTransitionType.rightToLeft,
+        );
+      case homeScreenAdmin:
+        return PageTransition(
+          child: BottomNavigationAdminWidget(
             selectedIndex: int.tryParse(settings.arguments.toString()) ?? 0,
           ),
           type: PageTransitionType.rightToLeft,
@@ -62,6 +85,30 @@ class Navigation {
         return PageTransition(
           child: const ListTrashScreen(),
           type: PageTransitionType.rightToLeft,
+        );
+      case listUsersScreen:
+        return PageTransition(
+          child: const ListUsersScreen(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case formUsersScreen:
+        return PageTransition(
+          child: const FormUsersScreen(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case formArtikelScreen:
+        return PageTransition(
+          child: const FormArtikelScreen(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case listArtikelScreen:
+        return PageTransition(
+          child: const ListArtikelScreenMaster(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
         );
       default:
         return MaterialPageRoute(

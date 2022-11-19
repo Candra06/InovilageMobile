@@ -73,7 +73,8 @@ List<Map<String, dynamic>> featuresAdmin = [
       color: secondaryColor,
       size: 50,
     ),
-    "url": Navigation.deliveryFormScreen,
+    "url": Navigation.listUsersScreen,
+    "arguments": "Pengguna",
   },
   {
     "id": 2,
@@ -83,7 +84,8 @@ List<Map<String, dynamic>> featuresAdmin = [
       color: secondaryColor,
       size: 50,
     ),
-    "url": Navigation.deliveryFormScreen,
+    "url": Navigation.listUsersScreen,
+    "arguments": "Kurir",
   },
   {
     "id": 3,
@@ -94,6 +96,7 @@ List<Map<String, dynamic>> featuresAdmin = [
       size: 50,
     ),
     "url": Navigation.deliveryFormScreen,
+    "arguments": "Pengiriman",
   },
   {
     "id": 4,
@@ -103,6 +106,30 @@ List<Map<String, dynamic>> featuresAdmin = [
       color: secondaryColor,
       size: 50,
     ),
-    "url": Navigation.listSampahScreen,
+    "url": Navigation.listArtikelScreen,
+    "arguments": "Artikel",
   }
+];
+
+List pengiriman = [
+  {
+    "created_at": "2022-11-09T15:10:27.000000Z",
+    "jenis_sampah": "Organik dan Anorganik",
+    "status": "Proses",
+    "id": 1,
+    "kode_transaksi": "TP00109112022",
+    "kurir": "Alex",
+    "alamat": "Jl. Kenanga RT/RW 42/8 Kesilir",
+    "tanggal": "2022-11-09 15:10:27",
+  },
+  {
+    "created_at": "2022-11-09T15:10:27.000000Z",
+    "jenis_sampah": "Organik dan Anorganik",
+    "status": "Proses",
+    "id": 1,
+    "kode_transaksi": "TP00209112022",
+    "kurir": "Jono",
+    "alamat": "Jl. Kenanga RT/RW 42/8 Kesilir",
+    "tanggal": "2022-11-09 15:10:27",
+  },
 ];

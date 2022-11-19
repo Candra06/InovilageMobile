@@ -24,7 +24,7 @@ class EndPoint {
     Map<String, dynamic>? body,
   }) async {
     return Network().post(
-      url: "updateProfil",
+      url: "auth/updateProfil/${body!['id']}",
       body: body,
     );
   }
@@ -53,6 +53,12 @@ class EndPoint {
   static getUserData() async {
     return Network().get(
       url: "auth/getUserData",
+    );
+  }
+
+  static getListUser() async {
+    return Network().get(
+      url: "auth/listUser",
     );
   }
 

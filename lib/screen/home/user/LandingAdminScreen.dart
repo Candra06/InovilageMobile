@@ -48,7 +48,7 @@ class _LandingAdminScreenState extends State<LandingAdminScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextWidget(
-                                  label: "Hai, Username",
+                                  label: "Hai, ${value.authData!.name!}",
                                   weight: 'bold',
                                   color: secondaryColor,
                                   type: 's1',
@@ -57,7 +57,7 @@ class _LandingAdminScreenState extends State<LandingAdminScreen> {
                                   height: 8,
                                 ),
                                 TextWidget(
-                                  label: "Hai, Username",
+                                  label: "Hai, ${value.authData!.email!}",
                                   color: fontSecondaryColor,
                                   type: 'l1',
                                 ),
@@ -130,12 +130,22 @@ class _LandingAdminScreenState extends State<LandingAdminScreen> {
                         vertical: defaultMargin,
                       ),
                       child: TextWidget(
-                        label: "Status",
+                        label: "Order",
                         type: 's2',
                         color: secondaryColor,
                       ),
                     ),
-                    StatusCardWidget(),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: value.dataDashboard['order'].length,
+                      itemBuilder: (context, index) {
+                        Map item = value.dataDashboard['order'][index];
+                        return StatusCardWidget(
+                          data: item,
+                        );
+                      },
+                    )
                   ],
                 );
               },
@@ -159,6 +169,7 @@ class CardFeature extends StatelessWidget {
         Navigator.pushNamed(
           context,
           data['url'],
+          arguments: data['arguments'],
         );
       },
       child: Container(

@@ -5,7 +5,7 @@ import 'package:inovilage/widget/TextWidget.dart';
 class HeaderWidget extends StatelessWidget {
   final String title;
   final Color? color;
-  final bool centerTitle;
+  final bool centerTitle, hideBackPress;
   final Function? onPressBack;
   const HeaderWidget({
     Key? key,
@@ -13,6 +13,7 @@ class HeaderWidget extends StatelessWidget {
     this.color,
     this.centerTitle = true,
     this.onPressBack,
+    this.hideBackPress = false,
   }) : super(key: key);
 
   @override
@@ -22,17 +23,19 @@ class HeaderWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          GestureDetector(
-            onTap: () {
-              onPressBack.runtimeType == Null
-                  ? Navigator.pop(context)
-                  : onPressBack!();
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: color.runtimeType == Null ? secondaryColor : color,
-            ),
-          ),
+          hideBackPress
+              ? const SizedBox()
+              : GestureDetector(
+                  onTap: () {
+                    onPressBack.runtimeType == Null
+                        ? Navigator.pop(context)
+                        : onPressBack!();
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: color.runtimeType == Null ? secondaryColor : color,
+                  ),
+                ),
           const SizedBox(
             width: 4,
           ),

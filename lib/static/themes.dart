@@ -11,6 +11,7 @@ Color lightPrimaryColor = const Color(0xFFD9EEF5);
 Color fontPrimaryColor = const Color(0xFF0F0F0F);
 Color fontSecondaryColor = const Color(0xFF808080);
 Color borderColor = const Color(0xFF02457A);
+Color bordergreyColor = HexColor("#808080");
 Color redColor = HexColor('#EE4C24');
 Color disableColor = HexColor('#DBDEE8');
 Color greenColor = HexColor('#48AD64');

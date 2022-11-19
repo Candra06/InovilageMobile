@@ -4,6 +4,8 @@ import 'package:inovilage/screen/home/user/LandingAdminScreen.dart';
 import 'package:inovilage/screen/home/user/LandingKurirScreen.dart';
 import 'package:inovilage/screen/home/user/LandingUserScreen.dart';
 import 'package:inovilage/static/themes.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       context,
       listen: false,
     ).authData;
+    await Provider.of<AuthProvider>(context, listen: false,).listUser();
     setState(() {
       role = data!.role.toString();
       loadContent();
@@ -39,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    initializeDateFormatting(); 
     Future.delayed(Duration.zero, () {
       getRole();
     });

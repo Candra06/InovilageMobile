@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
@@ -80,6 +83,8 @@ class RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       loading = true;
     });
+    List<Location> locations =
+        await locationFromAddress(addressController.text);
     Map<String, dynamic> body = {
       "name": nameController.text,
       "email": emailController.text,
@@ -87,6 +92,8 @@ class RegisterScreenState extends State<RegisterScreen> {
       "password": passwordController.text,
       "role": "Pengguna",
       "status": "Aktif",
+      "latitude": locations[0].latitude.toString(),
+      "longitude": locations[0].longitude.toString(),
       "alamat": addressController.text
     };
 
@@ -96,6 +103,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     )
         .register(
       body: body,
+      saveData: true,
     )
         .then((value) async {
       if (value['code'] == '00') {
