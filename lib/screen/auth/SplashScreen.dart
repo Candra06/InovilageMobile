@@ -23,7 +23,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   getToken() async {
     var token = await Pref.getToken();
-    print(token);
+    
     if (token.toString().isEmpty || token == null) {
       Timer(const Duration(seconds: 2), () {
         Navigator.pushNamed(

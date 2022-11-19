@@ -1,15 +1,58 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/BadgeWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';
 
-class StatusCardWidget extends StatelessWidget {
+class StatusCardWidget extends StatefulWidget {
   final Map data;
-  const StatusCardWidget({Key? key, required this.data}) : super(key: key);
+  const StatusCardWidget({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  @override
+  State<StatusCardWidget> createState() => _StatusCardWidgetState();
+}
+
+class _StatusCardWidgetState extends State<StatusCardWidget> {
+  getDetail(String id, String type) async {
+    Provider.of<PengirimanProvider>(
+      context,
+      listen: false,
+    )
+        .getDetailPengiriman(
+      id,
+    )
+        .then((value) {
+      if (value['code'] == '00') {
+        if (mounted) {
+          print(type);
+          if (type == 'detail') {
+            Navigator.pushNamed(
+              context,
+              Navigation.detailPengirimanScreen,
+              arguments: id,
+            );
+          } else {
+            Navigator.pushNamed(
+              context,
+              Navigation.addItemPengirimanScreen,
+              arguments: id,
+            );
+          }
+        } else {
+          print("object");
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +60,10 @@ class StatusCardWidget extends StatelessWidget {
       if (auth.authData!.role == 'Admin') {
         return InkWell(
           onTap: () {
-            if (data['status'] == 'Selesai') {
-              Navigator.pushNamed(
-                context,
-                Navigation.detailPengirimanScreen,
-                arguments: data['id'].toString(),
-              );
-            } else {}
+            getDetail(
+              widget.data['id'].toString(),
+              widget.data['status'] == 'Selesai' ? 'detail' : 'add',
+            );
           },
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -65,26 +105,26 @@ class StatusCardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
-                            label: "#${data['kode_transaksi']}",
+                            label: "#${widget.data['kode_transaksi']}",
                             type: 'l1',
                             color: fontPrimaryColor,
                           ),
                           TextWidget(
-                            label: "${data['alamat_jemput']}",
+                            label: "${widget.data['alamat_jemput']}",
                             type: 'l1',
                             useEllipsis: true,
                             maxLines: 1,
                             color: fontPrimaryColor,
                           ),
                           TextWidget(
-                            label: "Kurir : ${data['name']}",
+                            label: "Kurir : ${widget.data['name']}",
                             type: 'l1',
                             color: fontPrimaryColor,
                           )
                         ],
                       ),
                       BadgeWidget(
-                        text: "${data['status']}",
+                        text: "${widget.data['status']}",
                         type: 'small',
                       ),
                     ],
@@ -98,7 +138,7 @@ class StatusCardWidget extends StatelessWidget {
                       children: [
                         TextWidget(
                           label:
-                              "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
+                              "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: widget.data['tanggal'])}",
                           color: fontPrimaryColor,
                           type: 'l1',
                         ),
@@ -107,7 +147,7 @@ class StatusCardWidget extends StatelessWidget {
                             vertical: 4,
                           ),
                           child: TextWidget(
-                            label: "Jenis : ${data['jenis_sampah']}",
+                            label: "Jenis : ${widget.data['jenis_sampah']}",
                             color: fontPrimaryColor,
                             type: 'l1',
                           ),
@@ -128,19 +168,10 @@ class StatusCardWidget extends StatelessWidget {
       } else if (auth.authData!.role == 'Kurir') {
         return InkWell(
           onTap: () {
-            if (data['status'] == 'Selesai') {
-              Navigator.pushNamed(
-                context,
-                Navigation.detailPengirimanScreen,
-                arguments: data['id'].toString(),
-              );
-            } else {
-              Navigator.pushNamed(
-                context,
-                Navigation.addItemPengirimanScreen,
-                arguments: data['id'].toString(),
-              );
-            }
+            getDetail(
+              widget.data['id'].toString(),
+              widget.data['status'] != 'Menunggu Kurir' ? 'detail' : 'add',
+            );
           },
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -182,12 +213,12 @@ class StatusCardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
-                            label: "#${data['kode_transaksi']}",
+                            label: "#${widget.data['kode_transaksi']}",
                             type: 'l1',
                             color: fontPrimaryColor,
                           ),
                           TextWidget(
-                            label: "${data['alamat_jemput']}",
+                            label: "${widget.data['alamat_jemput']}",
                             type: 'l1',
                             useEllipsis: true,
                             textOverflow: TextOverflow.ellipsis,
@@ -197,7 +228,7 @@ class StatusCardWidget extends StatelessWidget {
                         ],
                       ),
                       BadgeWidget(
-                        text: "${data['status']}",
+                        text: "${widget.data['status']}",
                         type: 'small',
                       ),
                     ],
@@ -211,7 +242,7 @@ class StatusCardWidget extends StatelessWidget {
                       children: [
                         TextWidget(
                           label:
-                              "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
+                              "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: widget.data['tanggal'])}",
                           color: fontPrimaryColor,
                           type: 'l1',
                         ),
@@ -220,7 +251,7 @@ class StatusCardWidget extends StatelessWidget {
                             vertical: 4,
                           ),
                           child: TextWidget(
-                            label: "Jenis : ${data['jenis_sampah']}",
+                            label: "Jenis : ${widget.data['jenis_sampah']}",
                             color: fontPrimaryColor,
                             type: 'l1',
                           ),
@@ -241,19 +272,10 @@ class StatusCardWidget extends StatelessWidget {
       } else {
         return InkWell(
           onTap: () {
-            if (data['status'] == 'Selesai') {
-              Navigator.pushNamed(
-                context,
-                Navigation.detailPengirimanScreen,
-                arguments: data['id'].toString(),
-              );
-            } else {
-              Navigator.pushNamed(
-                context,
-                Navigation.detailPengirimanScreen,
-                arguments: data['id'].toString(),
-              );
-            }
+            getDetail(
+              widget.data['id'].toString(),
+              widget.data['status'] == 'Selesai' ? 'detail' : 'add',
+            );
           },
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -280,7 +302,7 @@ class StatusCardWidget extends StatelessWidget {
                   children: [
                     TextWidget(
                       label:
-                          "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: data['tanggal'])}",
+                          "Tanggal : ${dateFormatDay(context, format: "dd MMMM yyy hh:mm", value: widget.data['tanggal'])}",
                       color: fontPrimaryColor,
                       type: 'l1',
                     ),
@@ -289,7 +311,7 @@ class StatusCardWidget extends StatelessWidget {
                         vertical: 4,
                       ),
                       child: TextWidget(
-                        label: "Jenis : ${data['jenis_sampah']}",
+                        label: "Jenis : ${widget.data['jenis_sampah']}",
                         color: fontPrimaryColor,
                         type: 'l1',
                       ),
@@ -302,7 +324,7 @@ class StatusCardWidget extends StatelessWidget {
                   ],
                 ),
                 BadgeWidget(
-                  text: "${data['status']}",
+                  text: "${widget.data['status']}",
                   type: 'small',
                 ),
               ],

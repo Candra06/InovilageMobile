@@ -1,13 +1,24 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
+import 'package:inovilage/model/DetailPengirimanModel.dart';
+import 'package:inovilage/provider/PengirimanProvider.dart';
+import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/BadgeWidget.dart';
 import 'package:inovilage/widget/ButtonWidget.dart';
 import 'package:inovilage/widget/HeaderWidger.dart';
 import 'package:inovilage/widget/ModalAddItemWidget.dart';
+import 'package:inovilage/widget/ModalOptionWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AddItemScreen extends StatefulWidget {
   final String id;
@@ -22,161 +33,321 @@ class AddItemScreen extends StatefulWidget {
 
 class _AddItemScreenState extends State<AddItemScreen> {
   double lat = -8.339147, long = 113.5814033;
+  bool loading = false;
+  getDetail() async {
+    Provider.of<PengirimanProvider>(
+      context,
+      listen: false,
+    ).getDetailPengiriman(
+      widget.id,
+    );
+  }
+
+  onPressBottomTop() async {
+    Provider.of<PengirimanProvider>(
+      context,
+      listen: false,
+    ).addItemTrash(
+      item: {},
+      isReset: true,
+    ).then((value) => Navigator.pushReplacementNamed(
+          context,
+          Navigation.homeScreenAdmin,
+        ));
+  }
+
+  onPressButtonBottom() async {
+    Navigator.pop(context);
+  }
+
+  Future<bool> onWillPop() async {
+    return (await showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return ModalOptionWidget(
+              title: "Konfirmasi",
+              subtitle:
+                  "Apakah anda yakin ingin menutup halaman ini dan membatalkan perubahan?",
+              titleButtonTop: 'Iya',
+              titleButtonBottom: 'Kembali',
+              onPressButtonTop: onPressBottomTop,
+              onPressButtonBottom: onPressButtonBottom,
+              imageTopHeight: 125,
+              textAlign: TextAlign.center,
+              axisText: CrossAxisAlignment.center,
+              alignmentText: Alignment.center,
+            );
+          },
+        )) ??
+        false;
+  }
+
+  Future<void> _launchUrl(String latitude, String longitude) async {
+    String uri =
+        "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+
+    if (!await launchUrl(
+      Uri.parse(uri),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $uri';
+    }
+  }
+
+  onSubmit() async {
+    setState(() {
+      loading = true;
+    });
+    var tmpItem = await Provider.of<PengirimanProvider>(
+      context,
+      listen: false,
+    ).listItem;
+    if (tmpItem.isEmpty) {
+      showSnackBar(
+        context,
+        "Info",
+        subtitle: "Belum ada item ditambahkan",
+        position: 'TOP',
+        duration: 4,
+        type: 'warning',
+      );
+    } else {
+      List tmpId = [], tmpVolume = [], tmpHarga = [];
+      for (var element in tmpItem) {
+        tmpId.add(element['id']);
+        tmpVolume.add(element['volume']);
+        tmpHarga.add(element['harga']);
+      }
+      Map<String, dynamic> body = {
+        "sampah_id": tmpId.join(","),
+        "volume": tmpVolume.join(","),
+        "harga_satuan": tmpHarga.join(","),
+      };
+      await Provider.of<PengirimanProvider>(
+        context,
+        listen: false,
+      ).addItemPengiriman(body, widget.id).then((response) {
+        if (response['code'] == '00') {
+          showSnackBar(
+            context,
+            "Success",
+            subtitle: response['message'],
+            position: 'TOP',
+            duration: 4,
+            type: 'success',
+          );
+          onPressBottomTop();
+        } else {
+          showSnackBar(
+            context,
+            "Gagal",
+            subtitle: response['message'],
+            position: 'TOP',
+            duration: 4,
+            type: 'error',
+          );
+        }
+      });
+    }
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      getDetail();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: whiteColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(defaultMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const HeaderWidget(
-                title: "Detail Pengiriman",
-              ),
-              SizedBox(
-                height: defaultMargin,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(
-                              defaultBorderRadius,
-                            ),
-                          ),
-                          border: Border.all(
-                            color: primaryColor,
-                          ),
-                        ),
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        backgroundColor: whiteColor,
+        body: SafeArea(
+          child: Consumer<PengirimanProvider>(
+            builder: (context, value, child) {
+              DetailPengirimanModel detail = value.detailPengiriman;
+
+              return Padding(
+                padding: EdgeInsets.all(defaultMargin),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HeaderWidget(
+                      title: "Detail Pengiriman",
+                      onPressBack: onWillPop,
+                    ),
+                    SizedBox(
+                      height: defaultMargin,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                defaultMargin,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      TextWidget(
-                                        label: "#TP20012881293",
-                                        color: fontPrimaryColor,
-                                        type: 'l1',
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 4,
-                                        ),
-                                        child: TextWidget(
-                                          label: "Rumah Makan Waluyo",
-                                          color: fontPrimaryColor,
-                                          maxLines: 2,
-                                          useEllipsis: true,
-                                          type: 'l1',
-                                        ),
-                                      ),
-                                    ],
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(
+                                    defaultBorderRadius,
                                   ),
-                                  const BadgeWidget(
-                                    text: "Selesai",
-                                    type: 'large',
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(
-                              color: primaryColor,
-                              height: 1,
-                              thickness: 2,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                defaultMargin,
+                                ),
+                                border: Border.all(
+                                  color: primaryColor,
+                                ),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      TextWidget(
-                                        label: "Tanggal : ${dateFormatDay(
-                                          context,
-                                          format: "dd MMMM yyy hh:mm",
-                                          value: '2022-11-09 15:10:27',
-                                        )}",
-                                        color: fontPrimaryColor,
-                                        type: 'l1',
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 4,
+                                  Padding(
+                                    padding: EdgeInsets.all(
+                                      defaultMargin,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            TextWidget(
+                                              label: "#${detail.kodeTransaksi}",
+                                              color: fontPrimaryColor,
+                                              type: 'l1',
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 4,
+                                              ),
+                                              child: TextWidget(
+                                                label: detail.alamatJemput!,
+                                                color: fontPrimaryColor,
+                                                maxLines: 2,
+                                                useEllipsis: true,
+                                                type: 'l1',
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        child: TextWidget(
-                                          label: "Jenis : Organik",
-                                          color: fontPrimaryColor,
-                                          type: 'l1',
+                                        BadgeWidget(
+                                          text: detail.status!,
+                                          type: 'large',
                                         ),
-                                      ),
-                                      TextWidget(
-                                        label: "Tujuan : Bank Sampah YASINAT",
-                                        color: fontPrimaryColor,
-                                        type: 'l1',
-                                      ),
-                                    ],
+                                      ],
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: primaryColor,
+                                    height: 1,
+                                    thickness: 2,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(
+                                      defaultMargin,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            TextWidget(
+                                              label: "Tanggal : ${dateFormatDay(
+                                                context,
+                                                format: "dd MMMM yyy hh:mm",
+                                                value: detail.createdAt!
+                                                    .toString(),
+                                              )}",
+                                              color: fontPrimaryColor,
+                                              type: 'l1',
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 4,
+                                              ),
+                                              child: TextWidget(
+                                                label:
+                                                    "Jenis : ${detail.jenisSampah}",
+                                                color: fontPrimaryColor,
+                                                type: 'l1',
+                                              ),
+                                            ),
+                                            TextWidget(
+                                              label:
+                                                  "Tujuan : Bank Sampah YASINAT",
+                                              color: fontPrimaryColor,
+                                              type: 'l1',
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              height: defaultMargin,
+                            ),
+                            TextWidget(
+                              label: "Alamat",
+                              color: secondaryColor,
+                              type: 'b1',
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 300,
+                              child: OpenStreetMapSearchAndPick(
+                                center: LatLong(
+                                  double.parse(detail.latAddress.toString()),
+                                  double.parse(detail.longAddress.toString()),
+                                ),
+                                buttonColor: primaryColor,
+                                buttonText: 'Buka di Maps',
+                                onPicked: (pickedData) async {
+                                  await _launchUrl(
+                                    detail.latAddress.toString(),
+                                    detail.longAddress.toString(),
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: defaultMargin,
+                            ),
+                            previewItem(),
+                            SizedBox(
+                              height: defaultMargin,
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                      TextWidget(
-                        label: "Alamat",
-                        color: secondaryColor,
-                        type: 'b1',
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 300,
-                        child: OpenStreetMapSearchAndPick(
-                          center: LatLong(lat, long),
-                          buttonColor: primaryColor,
-                          buttonText: 'Pilih Lokasi',
-                          onPicked: (pickedData) {},
-                        ),
-                      ),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                      previewItem(),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                    ],
-                  ),
+                    ),
+                    ButtonWidget(
+                      label: "Pick Up dan Kirim",
+                      isLoading: loading,
+                      theme: loading ? 'disable' : 'primary',
+                      onPressed: () {
+                        if (!loading) {
+                          onSubmit();
+                        }
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              ButtonWidget(
-                label: "Pick Up dan Kirim",
-                onPressed: () {},
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -184,95 +355,152 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget previewItem() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(
-            defaultBorderRadius,
-          ),
-        ),
-        border: Border.all(
-          color: primaryColor,
-        ),
-      ),
-      // padding: EdgeInsets.all(defaultMargin),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buttonAdd(),
-          Divider(
-            thickness: 2,
-            color: primaryColor,
-          ),
-          Padding(
-            padding: EdgeInsets.all(defaultMargin),
-            child: TextWidget(
-              label: "Jumlah Sampah Anorganik",
-              color: secondaryColor,
-              type: 'b1',
+    return Consumer<PengirimanProvider>(
+      builder: (context, data, child) {
+        List organik = data.listItem.where(
+          (item) {
+            if (item['jenis'] == 'Organik') {
+              return true;
+            }
+            return false;
+          },
+        ).toList();
+
+        List anorganik = data.listItem.where(
+          (item) {
+            if (item['jenis'] == 'Anorganik') {
+              return true;
+            }
+            return false;
+          },
+        ).toList();
+
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                defaultBorderRadius,
+              ),
+            ),
+            border: Border.all(
+              color: primaryColor,
             ),
           ),
-          ListView.builder(
-            padding: EdgeInsets.only(
-              left: defaultMargin,
-              right: defaultMargin,
-            ),
-            shrinkWrap: true,
-            itemCount: 4,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return cardItem(
-                colors: index % 2 == 1 ? whiteColor : greyCardCOlor,
-                title: "Botol Kaca",
-                subtitle: "1.5kg x 3000/kg",
-                endTitle: "4500",
-              );
-            },
+          // padding: EdgeInsets.all(defaultMargin),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buttonAdd(),
+              Divider(
+                thickness: 2,
+                color: primaryColor,
+              ),
+              data.totalAnorganik['volume'] != 0
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: defaultMargin,
+                          ),
+                          child: TextWidget(
+                            label: "Jumlah Sampah Anorganik",
+                            color: secondaryColor,
+                            type: 'b1',
+                          ),
+                        ),
+                        ListView.builder(
+                          padding: EdgeInsets.only(
+                            top: defaultMargin,
+                            left: defaultMargin,
+                            right: defaultMargin,
+                          ),
+                          shrinkWrap: true,
+                          itemCount: anorganik.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return cardItem(
+                              colors:
+                                  index % 2 == 1 ? whiteColor : greyCardCOlor,
+                              title: anorganik[index]['label'],
+                              subtitle:
+                                  "${anorganik[index]['volume']}${anorganik[index]['satuan']} x ${anorganik[index]['harga']}/${anorganik[index]['satuan']}",
+                              endTitle: "${anorganik[index]['subtotal']}",
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: defaultMargin,
+                          ),
+                          child: cardItem(
+                            colors: greyCardCOlor,
+                            title: "Jumlah",
+                            subtitle: "${data.totalAnorganik['volume']}kg",
+                            endTitle: data.totalAnorganik['price'].toString(),
+                          ),
+                        ),
+                        SizedBox(
+                          height: defaultMargin,
+                        ),
+                      ],
+                    )
+                  : const SizedBox(),
+              data.totalOrganik['volume'] != 0
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: defaultMargin,
+                          ),
+                          child: TextWidget(
+                            label: "Jumlah Sampah Organik",
+                            color: secondaryColor,
+                            type: 'b1',
+                          ),
+                        ),
+                        ListView.builder(
+                          padding: EdgeInsets.only(
+                            top: defaultMargin,
+                            left: defaultMargin,
+                            right: defaultMargin,
+                          ),
+                          shrinkWrap: true,
+                          itemCount: organik.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return cardItem(
+                              colors:
+                                  index % 2 == 1 ? whiteColor : greyCardCOlor,
+                              title: organik[index]['label'],
+                              subtitle:
+                                  "${organik[index]['volume']}${organik[index]['satuan']} x ${organik[index]['harga']}/${organik[index]['satuan']}",
+                              endTitle: "${organik[index]['subtotal']}",
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: defaultMargin,
+                          ),
+                          child: cardItem(
+                            colors: greyCardCOlor,
+                            title: "Jumlah",
+                            subtitle: "${data.totalOrganik['volume']}kg",
+                            endTitle: data.totalOrganik['price'].toString(),
+                          ),
+                        ),
+                        SizedBox(
+                          height: defaultMargin,
+                        ),
+                      ],
+                    )
+                  : const SizedBox(),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: defaultMargin,
-            ),
-            child: cardItem(
-              colors: greyCardCOlor,
-              title: "Jumlah",
-              subtitle: "4.5kg",
-              endTitle: "4500",
-            ),
-          ),
-          SizedBox(
-            height: defaultMargin,
-          ),
-          Padding(
-            padding: EdgeInsets.all(defaultMargin),
-            child: TextWidget(
-              label: "Jumlah Sampah Anorganik",
-              color: secondaryColor,
-              type: 'b1',
-            ),
-          ),
-          ListView.builder(
-            padding: EdgeInsets.only(
-              left: defaultMargin,
-              right: defaultMargin,
-            ),
-            shrinkWrap: true,
-            itemCount: 1,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return cardItem(
-                colors: index % 2 == 1 ? whiteColor : greyCardCOlor,
-                title: "Botol Kaca",
-                subtitle: "1.5kg x 3000/kg",
-                endTitle: "4500",
-              );
-            },
-          ),
-          SizedBox(
-            height: defaultMargin,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -364,7 +592,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   showAddItemDialog(String id) {
     return showDialog<void>(
       context: context,
-      
+
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return ModalAddItemWidget();

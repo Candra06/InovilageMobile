@@ -13,7 +13,7 @@ String dateFormatDay(
       ),
     );
   } catch (e) {
-    print(e);
+    
     return value.toString();
   }
 }

@@ -83,7 +83,7 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
       "long_address": long.toString(),
       "jenis_sampah": typeController.text,
     };
-    print(body);
+    
     await Provider.of<PengirimanProvider>(
       context,
       listen: false,

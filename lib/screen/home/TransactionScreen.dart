@@ -73,7 +73,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       Map item = value.listPengiriman[index].toJson();
-                      return StatusCardWidget(data: item);
+                      return StatusCardWidget(
+                        data: item,
+                      );
                     },
                   );
                 },
