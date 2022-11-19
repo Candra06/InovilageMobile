@@ -4,6 +4,7 @@ import 'package:inovilage/screen/home/user/LandingAdminScreen.dart';
 import 'package:inovilage/screen/home/user/LandingKurirScreen.dart';
 import 'package:inovilage/screen/home/user/LandingUserScreen.dart';
 import 'package:inovilage/static/themes.dart';
+import 'package:inovilage/widget/LoadingWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -17,14 +18,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String role = 'Admin';
+  bool load = true;
   getRole() async {
+    setState(() {
+      load = true;
+    });
     var data = Provider.of<AuthProvider>(
       context,
       listen: false,
     ).authData;
-    await Provider.of<AuthProvider>(context, listen: false,).listUser();
+    await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).listUser();
     setState(() {
       role = data!.role.toString();
+      load = false;
       loadContent();
     });
   }
@@ -42,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    initializeDateFormatting(); 
+    initializeDateFormatting();
     Future.delayed(Duration.zero, () {
       getRole();
     });
@@ -53,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
-      body: loadContent(),
+      body: load ? const LoadingWidget() : loadContent(),
     );
   }
 }

@@ -151,8 +151,8 @@ class ModalOptionWidgetState extends State<ModalOptionWidget> {
                               child: ButtonWidget(
                                 label: widget.titleButtonBottom,
                                 isLoading: isLoadingButtom,
-                                type: isLoadingButtom ? '' : 'outline',
-                                theme: isLoadingButtom ? 'disable' : '',
+                                type: 'outline',
+                                theme: 'primary',
                                 onPressed: () {
                                   if (widget.onPressButtonBottom != null &&
                                       !isLoadingButtom) {

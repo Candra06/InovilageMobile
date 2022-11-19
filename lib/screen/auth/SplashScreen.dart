@@ -48,11 +48,17 @@ class _SplashScreenState extends State<SplashScreen> {
           await Provider.of<AuthProvider>(
             context,
             listen: false,
-          ).dashboard().then((req) {
+          ).dashboard().then((req) async {
             if (req['code'] == '00') {
               if (value['data']['role'] == 'Pengguna') {
                 Navigator.pushNamed(context, Navigation.homeScreen);
               } else {
+                if (value['data']['role'] == 'Kurir') {
+                  await Provider.of<AuthProvider>(
+                    context,
+                    listen: false,
+                  ).getStatusKurir();
+                }
                 Navigator.pushNamed(context, Navigation.homeScreenAdmin);
               }
             }

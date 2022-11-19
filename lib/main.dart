@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/provider/SampahProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ArtikelProvider>(
           create: (BuildContext context) => ArtikelProvider(),
+        ),
+        ChangeNotifierProvider<PengirimanProvider>(
+          create: (BuildContext context) => PengirimanProvider(),
         ),
       ],
       child: MaterialApp(

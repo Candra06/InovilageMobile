@@ -51,16 +51,8 @@ List<Map<String, dynamic>> jenisSampah = [
     "label": "Organik",
   },
   {
-    "id": 1,
-    "label": "Plastik",
-  },
-  {
-    "id": 1,
-    "label": "Ori",
-  },
-  {
-    "id": 1,
-    "label": "Iyeh",
+    "id": 2,
+    "label": "Anorganik",
   },
 ];
 
@@ -95,7 +87,7 @@ List<Map<String, dynamic>> featuresAdmin = [
       color: secondaryColor,
       size: 50,
     ),
-    "url": Navigation.deliveryFormScreen,
+    "url": Navigation.listSampahScreen,
     "arguments": "Pengiriman",
   },
   {

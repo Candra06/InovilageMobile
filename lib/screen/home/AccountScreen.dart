@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/HeaderWidger.dart';
 import 'package:inovilage/widget/ImageWidget.dart';
+import 'package:inovilage/widget/LoadingWidget.dart';
+import 'package:inovilage/widget/ModalOptionWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';
 
@@ -37,9 +40,62 @@ class _AccountScreenState extends State<AccountScreen> {
     });
   }
 
+  updateStatus(String status) async {
+    setState(() {
+      loading = true;
+    });
+    if (status == 'Inorder') {
+      showSnackBar(
+        context,
+        'Gagal merubah status',
+        subtitle: "Anda sedang dalam order, silahkan hubungi admin",
+        type: 'error',
+        duration: 5,
+        position: 'Top',
+      );
+    } else {
+      Provider.of<AuthProvider>(
+        context,
+        listen: false,
+      ).updateStatusKurir(body: {"status": "Ready"}).then((value) {
+        if (value['code'] == '00') {
+          Provider.of<AuthProvider>(
+            context,
+            listen: false,
+          ).getStatusKurir().then((response) {
+            if (response['code'] == '00') {
+              showSnackBar(
+                context,
+                '',
+                subtitle: value['message'],
+                type: 'success',
+                duration: 5,
+                position: 'Top',
+              );
+            }
+          });
+        } else {
+          showSnackBar(
+            context,
+            '',
+            subtitle: value['message'],
+            type: 'error',
+            duration: 5,
+            position: 'Top',
+          );
+        }
+      });
+    }
+    setState(() {
+      loading = false;
+    });
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: true,
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.all(
@@ -120,9 +176,68 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: defaultMargin,
                   ),
+                  user.authData!.role == 'Kurir'
+                      ? Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                if (user.statusKurir['status'] == 'Inorder') {
+                                  showSnackBar(
+                                    context,
+                                    'Gagal merubah status',
+                                    subtitle:
+                                        "Anda sedang dalam order, silahkan hubungi admin",
+                                    type: 'error',
+                                    duration: 5,
+                                    position: 'Top',
+                                  );
+                                } else {
+                                  showConfirmDelete(
+                                    user.statusKurir['status'],
+                                  );
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: defaultMargin,
+                                  horizontal: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(
+                                      defaultBorderRadius,
+                                    ),
+                                  ),
+                                  border: Border.all(
+                                    color: primaryColor,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextWidget(
+                                      label: "Ubah Status",
+                                      type: 'l1',
+                                      color: fontPrimaryColor,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: fontSecondaryColor,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: defaultMargin,
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
                   Container(
                     padding: EdgeInsets.symmetric(
                       vertical: defaultMargin,
@@ -181,9 +296,10 @@ class _AccountScreenState extends State<AccountScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           loading
-                              ? SizedBox(
-                                  child: CircularProgressIndicator(
-                                    color: secondaryColor,
+                              ? const SizedBox(
+                                  child: LoadingWidget(
+                                    customWidth: 20,
+                                    customHeight: 20,
                                   ),
                                   height: 30.0,
                                   width: 30.0,
@@ -210,6 +326,28 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  showConfirmDelete(String status) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return ModalOptionWidget(
+          contraintHeight: 225,
+          title: "Konfirmasi",
+          subtitle: 'Apakah anda yakin ingin mengubah status anda?',
+          titleButtonTop: status == 'Ready' ? 'Close' : 'Ready',
+          isLoading: loading,
+          onPressButtonTop: () => updateStatus(status),
+          onPressButtonBottom: () => Navigator.pop(context),
+          titleButtonBottom: 'Kembali',
+          textAlign: TextAlign.start,
+          axisText: CrossAxisAlignment.start,
+          alignmentText: Alignment.centerLeft,
+        );
+      },
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:inovilage/screen/auth/SplashScreen.dart';
 import 'package:inovilage/screen/delivery/DeliveryFormScreen.dart';
 import 'package:inovilage/screen/home/AccountScreen.dart';
 import 'package:inovilage/screen/home/TransactionScreen.dart';
+import 'package:inovilage/screen/trash/FormTrashScree.dart';
 import 'package:inovilage/screen/trash/ListTrashScreen.dart';
 import 'package:inovilage/widget/BottomNavigationWidget.dart';
 import 'package:page_transition/page_transition.dart';
@@ -25,6 +26,7 @@ class Navigation {
   static const accountScreen = '/accountScreen';
   static const deliveryFormScreen = '/deliveryFormScreen';
   static const listSampahScreen = '/listSampahScreen';
+  static const formSampahScreen = '/formSampahScreen';
   static const listUsersScreen = '/ListUsersScreen';
   static const formUsersScreen = '/FormUsersScreen';
   static const formArtikelScreen = '/FormArtikelScreen';
@@ -85,6 +87,12 @@ class Navigation {
         return PageTransition(
           child: const ListTrashScreen(),
           type: PageTransitionType.rightToLeft,
+        );
+      case formSampahScreen:
+        return PageTransition(
+          child: const FormTrashScreen(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
         );
       case listUsersScreen:
         return PageTransition(

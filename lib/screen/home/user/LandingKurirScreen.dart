@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:inovilage/model/AuthModel.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/static/Static.dart';
+import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/ImageWidget.dart';
@@ -28,6 +30,8 @@ class _LandingKurirScreenState extends State<LandingKurirScreen> {
             ),
             child: Consumer<AuthProvider>(
               builder: (context, value, child) {
+                AuthModel data = value.authData!;
+                Map dashboard = value.dataDashboard;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -45,7 +49,7 @@ class _LandingKurirScreenState extends State<LandingKurirScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextWidget(
-                              label: "Hai, Username",
+                              label: "Hai, ${data.name}",
                               weight: 'bold',
                               color: secondaryColor,
                               type: 's1',
@@ -54,7 +58,7 @@ class _LandingKurirScreenState extends State<LandingKurirScreen> {
                               height: 8,
                             ),
                             TextWidget(
-                              label: "Hai, Username",
+                              label: "Hai, ${data.email}",
                               color: fontSecondaryColor,
                               type: 'l1',
                             ),
@@ -121,53 +125,64 @@ class _LandingKurirScreenState extends State<LandingKurirScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              children: [
-                                TextWidget(
-                                  label: "Saldo",
-                                  color: fontPrimaryColor,
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                TextWidget(
-                                  label: "Rp. 40.000",
-                                  color: fontPrimaryColor,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 2,
-                              height: 45,
+                            Expanded(
                               child: Column(
-                                children: List.generate(
-                                  100 ~/ 10,
-                                  (index) => Expanded(
-                                    child: Container(
-                                      color: index % 2 == 0
-                                          ? Colors.transparent
-                                          : fontSecondaryColor,
-                                      height: 8,
-                                      width: 2,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  TextWidget(
+                                    label: "Saldo",
+                                    color: fontPrimaryColor,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  TextWidget(
+                                    label: formatrupiah(
+                                      amount: dashboard['saldo'].toString(),
+                                      awalan: 'Rp. ',
+                                    ),
+                                    color: fontPrimaryColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                width: 2,
+                                height: 45,
+                                child: Column(
+                                  children: List.generate(
+                                    100 ~/ 10,
+                                    (index) => Expanded(
+                                      child: Container(
+                                        color: index % 2 == 0
+                                            ? Colors.transparent
+                                            : fontSecondaryColor,
+                                        height: 8,
+                                        width: 2,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Column(
-                              children: [
-                                TextWidget(
-                                  label: "Total Pick Up",
-                                  color: fontPrimaryColor,
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                TextWidget(
-                                  label: "40",
-                                  color: fontPrimaryColor,
-                                ),
-                              ],
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  TextWidget(
+                                    label: "Total Pick Up",
+                                    color: fontPrimaryColor,
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  TextWidget(
+                                    label: "${dashboard['pickup']}",
+                                    color: fontPrimaryColor,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -178,30 +193,7 @@ class _LandingKurirScreenState extends State<LandingKurirScreen> {
                         vertical: defaultMargin,
                       ),
                       child: TextWidget(
-                        label: "Fitur",
-                        type: 's2',
-                        color: secondaryColor,
-                      ),
-                    ),
-                    AlignedGridView.count(
-                      itemCount: features.length,
-                      shrinkWrap: true,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      itemBuilder: (context, index) {
-                        return CardFeature(
-                          data: features[index],
-                        );
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: defaultMargin,
-                      ),
-                      child: TextWidget(
-                        label: "Status",
+                        label: "Order",
                         type: 's2',
                         color: secondaryColor,
                       ),
@@ -209,9 +201,9 @@ class _LandingKurirScreenState extends State<LandingKurirScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: pengiriman.length,
+                      itemCount: dashboard['order'].length,
                       itemBuilder: (context, index) {
-                        Map item = pengiriman[index];
+                        Map item = dashboard['order'][index];
                         return StatusCardWidget(
                           data: item,
                         );

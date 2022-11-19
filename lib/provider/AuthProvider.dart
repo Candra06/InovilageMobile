@@ -81,6 +81,23 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> getStatusKurir() async {
+    try {
+      var request = await EndPoint.getstatusKurir();
+      if (request['code'] == '00') {
+        _statusKurir = request['data'];
+      }
+
+      notifyListeners();
+      return request;
+    } catch (e) {
+      return {
+        "code": Network().codeError,
+        "message": e.toString(),
+      };
+    }
+  }
+
   Future<Map<String, dynamic>> updateProfil({
     required Map<String, dynamic> body,
     

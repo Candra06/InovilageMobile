@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
             await Provider.of<AuthProvider>(
               context,
               listen: false,
-            ).dashboard().then((resp) {
+            ).dashboard().then((resp) async {
               if (resp['code'] == '00') {
                 if (response['data']['role'] == 'Pengguna') {
                   Navigator.pushNamed(
@@ -87,6 +89,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigation.homeScreen,
                   );
                 } else {
+                  if (value['data']['role'] == 'Kurir') {
+                    await Provider.of<AuthProvider>(
+                      context,
+                      listen: false,
+                    ).getStatusKurir();
+                  }
                   Navigator.pushNamed(
                     context,
                     Navigation.homeScreenAdmin,
