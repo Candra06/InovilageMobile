@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
@@ -12,9 +13,11 @@ import 'package:provider/provider.dart';
 
 class StatusCardWidget extends StatefulWidget {
   final Map data;
+  final String transType;
   const StatusCardWidget({
     Key? key,
     required this.data,
+    this.transType = 'pengiriman',
   }) : super(key: key);
 
   @override
@@ -23,23 +26,30 @@ class StatusCardWidget extends StatefulWidget {
 
 class _StatusCardWidgetState extends State<StatusCardWidget> {
   getDetail(String id, String type) async {
-    Provider.of<PengirimanProvider>(
-      context,
-      listen: false,
-    )
-        .getDetailPengiriman(
-      id,
-    )
-        .then((value) {
-      if (value['code'] == '00') {
-        if (mounted) {
-          print(type);
+    if (widget.transType == 'pengiriman') {
+      Provider.of<PengirimanProvider>(
+        context,
+        listen: false,
+      )
+          .getDetailPengiriman(
+        id,
+      )
+          .then((value) {
+        if (value['code'] == '00') {
           if (type == 'detail') {
             Navigator.pushNamed(
               context,
               Navigation.detailPengirimanScreen,
               arguments: id,
             );
+            if (widget.transType == 'pengiriman') {
+            } else {
+              Navigator.pushNamed(
+                context,
+                Navigation.detailDonaiScreen,
+                arguments: id,
+              );
+            }
           } else {
             Navigator.pushNamed(
               context,
@@ -47,11 +57,34 @@ class _StatusCardWidgetState extends State<StatusCardWidget> {
               arguments: id,
             );
           }
-        } else {
-          print("object");
         }
-      }
-    });
+      });
+    } else {
+      Provider.of<DonasiProvider>(
+        context,
+        listen: false,
+      )
+          .getDetailPengiriman(
+        id,
+      )
+          .then((value) {
+        if (value['code'] == '00') {
+          if (type == 'detail') {
+            Navigator.pushNamed(
+              context,
+              Navigation.detailDonaiScreen,
+              arguments: id,
+            );
+          } else {
+            Navigator.pushNamed(
+              context,
+              Navigation.addItemDonaiScreen,
+              arguments: id,
+            );
+          }
+        }
+      });
+    }
   }
 
   @override
@@ -62,7 +95,7 @@ class _StatusCardWidgetState extends State<StatusCardWidget> {
           onTap: () {
             getDetail(
               widget.data['id'].toString(),
-              widget.data['status'] == 'Selesai' ? 'detail' : 'add',
+              'detail',
             );
           },
           child: Container(
@@ -274,7 +307,7 @@ class _StatusCardWidgetState extends State<StatusCardWidget> {
           onTap: () {
             getDetail(
               widget.data['id'].toString(),
-              widget.data['status'] == 'Selesai' ? 'detail' : 'add',
+              'detail',
             );
           },
           child: Container(

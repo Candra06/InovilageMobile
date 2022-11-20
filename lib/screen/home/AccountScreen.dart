@@ -24,6 +24,10 @@ class _AccountScreenState extends State<AccountScreen> {
     setState(() {
       loading = true;
     });
+    Navigator.pushReplacementNamed(
+      context,
+      Navigation.loginScreen,
+    );
     Provider.of<AuthProvider>(
       context,
       listen: false,
@@ -32,10 +36,6 @@ class _AccountScreenState extends State<AccountScreen> {
         loading = false;
       });
       if (value['code'] == '00') {
-        Navigator.pushReplacementNamed(
-          context,
-          Navigation.loginScreen,
-        );
       } else {}
     });
   }

@@ -100,7 +100,6 @@ class AuthProvider with ChangeNotifier {
 
   Future<Map<String, dynamic>> updateProfil({
     required Map<String, dynamic> body,
-    
   }) async {
     try {
       var request = await EndPoint.updateProfil(

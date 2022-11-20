@@ -136,7 +136,12 @@ class _BottomNavigationAdminWidgetState
     extends State<BottomNavigationAdminWidget> {
   final List<Widget> _pages = [
     const HomeScreen(),
-    const TransactionScreen(),
+    const TransactionScreen(
+      type: 'pengiriman',
+    ),
+    const TransactionScreen(
+      type: 'donasi',
+    ),
     const AccountScreen(),
   ];
 
@@ -215,6 +220,17 @@ class _BottomNavigationAdminWidgetState
                 color: primaryColor,
               ),
               label: "Transaksi Order",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.price_change,
+                color: fontPrimaryColor,
+              ),
+              activeIcon: Icon(
+                Icons.list_alt,
+                color: primaryColor,
+              ),
+              label: "Donasi",
             ),
             BottomNavigationBarItem(
               icon: Icon(

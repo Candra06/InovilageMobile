@@ -11,6 +11,8 @@ import 'package:inovilage/screen/auth/SplashScreen.dart';
 import 'package:inovilage/screen/delivery/AddItemScreen.dart';
 import 'package:inovilage/screen/delivery/DeliveryFormScreen.dart';
 import 'package:inovilage/screen/delivery/DetailPengirimanScreen.dart';
+import 'package:inovilage/screen/donasi/AddItemDonasiScreen.dart';
+import 'package:inovilage/screen/donasi/DetailDonasiScreen.dart';
 import 'package:inovilage/screen/donasi/DonasiFormScreen.dart';
 import 'package:inovilage/screen/donasi/ListDonasiScreen.dart';
 import 'package:inovilage/screen/home/AccountScreen.dart';
@@ -41,6 +43,8 @@ class Navigation {
   static const detailArtikelScreen = '/detailArtikelScreen';
   static const detailPengirimanScreen = '/detailPengirimanScreen';
   static const addItemPengirimanScreen = '/addItemPengirimanScreen';
+  static const detailDonaiScreen = '/detailDonaiScreen';
+  static const addItemDonaiScreen = '/addItemDonaiScreen';
 
   static Route<dynamic>? generateRoute(RouteSettings? settings) {
     switch (settings!.name) {
@@ -80,7 +84,9 @@ class Navigation {
         );
       case transacTionScreen:
         return PageTransition(
-          child: const TransactionScreen(),
+          child: const TransactionScreen(
+            type: 'pengiriman',
+          ),
           type: PageTransitionType.rightToLeft,
         );
       case accountScreen:
@@ -158,6 +164,22 @@ class Navigation {
       case addItemPengirimanScreen:
         return PageTransition(
           child: AddItemScreen(
+            id: settings.arguments as String,
+          ),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case detailDonaiScreen:
+        return PageTransition(
+          child: DetailDonasiScreen(
+            id: settings.arguments as String,
+          ),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case addItemDonaiScreen:
+        return PageTransition(
+          child: AddItemDonasiScreen(
             id: settings.arguments as String,
           ),
           type: PageTransitionType.rightToLeft,

@@ -69,7 +69,10 @@ class _ListDonasiScreenState extends State<ListDonasiScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       Map item = value.listDonasi[index].toJson();
-                      return StatusCardWidget(data: item);
+                      return StatusCardWidget(
+                        data: item,
+                        transType: 'donasi',
+                      );
                     },
                   );
                 },

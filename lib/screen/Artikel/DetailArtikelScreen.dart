@@ -3,7 +3,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
-import 'package:inovilage/widget/HeaderWidger.dart';
 import 'package:inovilage/widget/LoadingWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';

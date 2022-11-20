@@ -2,14 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
-import 'package:inovilage/model/AuthModel.dart';
 import 'package:inovilage/provider/ArtikelProvider.dart';
-import 'package:inovilage/provider/AuthProvider.dart';
-import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/CardArtikelWidget.dart';
 import 'package:inovilage/widget/HeaderWidger.dart';
-import 'package:inovilage/widget/ImageWidget.dart';
 import 'package:inovilage/widget/InputWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';

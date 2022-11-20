@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:inovilage/helper/Pref.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
   final String server = "https://inovilage.waserdajaya.store/public/api/";

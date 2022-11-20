@@ -119,7 +119,6 @@ class PengirimanProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }
@@ -132,6 +131,22 @@ class PengirimanProvider with ChangeNotifier {
         id,
       );
 
+      return response;
+    } catch (e) {
+      return {
+        "code": Network().codeError,
+        "message": e.toString(),
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> confirm(
+    String id,
+  ) async {
+    try {
+      var response = await EndPoint.confirmPengiriman(
+        id,
+      );
       return response;
     } catch (e) {
       return {

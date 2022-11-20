@@ -3,7 +3,7 @@ import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/model/AuthModel.dart';
 import 'package:inovilage/model/DetailPengirimanModel.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
-import 'package:inovilage/provider/PengirimanProvider.dart';
+import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
@@ -13,24 +13,24 @@ import 'package:inovilage/widget/HeaderWidger.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';
 
-class DetailPengirimanScreen extends StatefulWidget {
+class DetailDonasiScreen extends StatefulWidget {
   final String id;
-  const DetailPengirimanScreen({
+  const DetailDonasiScreen({
     Key? key,
     required this.id,
   }) : super(key: key);
 
   @override
-  State<DetailPengirimanScreen> createState() => _DetailPengirimanScreenState();
+  State<DetailDonasiScreen> createState() => _DetailDonasiScreenState();
 }
 
-class _DetailPengirimanScreenState extends State<DetailPengirimanScreen> {
+class _DetailDonasiScreenState extends State<DetailDonasiScreen> {
   bool loading = false;
   confirmOrder() async {
     setState(() {
       loading = true;
     });
-    await Provider.of<PengirimanProvider>(
+    await Provider.of<DonasiProvider>(
       context,
       listen: false,
     ).confirm(widget.id).then((response) {
@@ -78,20 +78,15 @@ class _DetailPengirimanScreenState extends State<DetailPengirimanScreen> {
     return Scaffold(
       backgroundColor: whiteColor,
       body: SafeArea(
-        child: Consumer<PengirimanProvider>(
+        child: Consumer<DonasiProvider>(
           builder: (context, value, child) {
-            DetailPengirimanModel data = value.detailPengiriman;
-            double totalOrganik = 0,
-                totalAnorganik = 0,
-                priceOrganik = 0,
-                priceAnorganik = 0;
+            DetailPengirimanModel data = value.detailDonasi;
+            double totalOrganik = 0, totalAnorganik = 0;
             for (var element in data.itemOrganik!) {
               totalOrganik += num.tryParse(element.volume!)!.toDouble();
-              priceOrganik += num.tryParse(element.hargaTotal!)!.toDouble();
             }
             for (var element in data.itemAnorganik!) {
               totalAnorganik += num.tryParse(element.volume!)!.toDouble();
-              priceAnorganik += num.tryParse(element.hargaTotal!)!.toDouble();
             }
             return Padding(
               padding: EdgeInsets.all(defaultMargin),
@@ -102,7 +97,7 @@ class _DetailPengirimanScreenState extends State<DetailPengirimanScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const HeaderWidget(
-                        title: "Detail Pengiriman",
+                        title: "Detail Donasi",
                       ),
                       SizedBox(
                         height: defaultMargin,
@@ -293,20 +288,18 @@ class _DetailPengirimanScreenState extends State<DetailPengirimanScreen> {
                                                           : greyCardCOlor,
                                                       title:
                                                           itemAnorganik.nama!,
-                                                      subtitle:
-                                                          "${itemAnorganik.volume!}${itemAnorganik.satuan!} x ${itemAnorganik.hargaSatuan!}/${itemAnorganik.satuan!}",
-                                                      endTitle: itemAnorganik
-                                                          .hargaTotal!,
+                                                      subtitle: "",
+                                                      endTitle:
+                                                          "${itemAnorganik.volume!}${itemAnorganik.satuan!}",
                                                     );
                                                   },
                                                 ),
                                                 cardItem(
                                                   colors: greyCardCOlor,
                                                   title: "Jumlah",
-                                                  subtitle:
-                                                      "${totalAnorganik.toString()}kg",
+                                                  subtitle: "",
                                                   endTitle:
-                                                      priceAnorganik.toString(),
+                                                      "${totalAnorganik.toString()}kg",
                                                 ),
                                                 SizedBox(
                                                   height: defaultMargin,
@@ -344,20 +337,18 @@ class _DetailPengirimanScreenState extends State<DetailPengirimanScreen> {
                                                           ? whiteColor
                                                           : greyCardCOlor,
                                                       title: itemOrganik.nama!,
-                                                      subtitle:
-                                                          "${itemOrganik.volume!}${itemOrganik.satuan!} x ${itemOrganik.hargaSatuan!}/${itemOrganik.satuan!}",
-                                                      endTitle: itemOrganik
-                                                          .hargaTotal!,
+                                                      subtitle: "",
+                                                      endTitle:
+                                                          "${itemOrganik.volume!}${itemOrganik.satuan!}",
                                                     );
                                                   },
                                                 ),
                                                 cardItem(
                                                   colors: greyCardCOlor,
                                                   title: "Jumlah",
-                                                  subtitle:
-                                                      "${totalOrganik.toString()}kg",
+                                                  subtitle: "",
                                                   endTitle:
-                                                      priceOrganik.toString(),
+                                                      "${totalOrganik.toString()}kg",
                                                 ),
                                                 SizedBox(
                                                   height: defaultMargin,
@@ -365,45 +356,6 @@ class _DetailPengirimanScreenState extends State<DetailPengirimanScreen> {
                                               ],
                                             )
                                           : const SizedBox(),
-                                      authData.role != 'Pengguna'
-                                          ? Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextWidget(
-                                                  label: "Pendapatan Kurir",
-                                                  color: secondaryColor,
-                                                  type: 'b1',
-                                                ),
-                                                cardItem(
-                                                  colors: greyCardCOlor,
-                                                  title:
-                                                      "15% x ${data.totalamount}",
-                                                  subtitle: "",
-                                                  endTitle:
-                                                      data.kurirfee.toString(),
-                                                ),
-                                              ],
-                                            )
-                                          : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextWidget(
-                                                  label: "Biaya Admin",
-                                                  color: secondaryColor,
-                                                  type: 'b1',
-                                                ),
-                                                cardItem(
-                                                  colors: greyCardCOlor,
-                                                  title:
-                                                      "25% x ${data.totalamount}",
-                                                  subtitle: "",
-                                                  endTitle:
-                                                      data.adminfee.toString(),
-                                                ),
-                                              ],
-                                            ),
                                       authData.role != 'Kurir'
                                           ? Container(
                                               margin: EdgeInsets.only(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/provider/SampahProvider.dart';
 import 'package:inovilage/static/Static.dart';
@@ -11,7 +12,11 @@ import 'package:inovilage/widget/SelectWidget.dart';
 import 'package:provider/provider.dart';
 
 class ModalAddItemWidget extends StatefulWidget {
-  const ModalAddItemWidget({Key? key}) : super(key: key);
+  final String type;
+  const ModalAddItemWidget({
+    Key? key,
+    this.type = 'pengiriman',
+  }) : super(key: key);
 
   @override
   State<ModalAddItemWidget> createState() => _ModalAddItemWidgetState();
@@ -55,21 +60,39 @@ class _ModalAddItemWidgetState extends State<ModalAddItemWidget> {
   }
 
   addItem() async {
-    selected['subtotal'] = double.parse(selected['harga'].toString()) *
-        double.parse(volumeController.text.toString());
-    selected['volume'] = volumeController.text;
-    Provider.of<PengirimanProvider>(
-      context,
-      listen: false,
-    )
-        .addItemTrash(
-      item: selected,
-    )
-        .then((value) {
-      if (value) {
-        Navigator.pop(context);
-      } else {}
-    });
+    if (widget.type == 'pengiriman') {
+      selected['subtotal'] = double.parse(selected['harga'].toString()) *
+          double.parse(volumeController.text.toString());
+      selected['volume'] = volumeController.text;
+      Provider.of<PengirimanProvider>(
+        context,
+        listen: false,
+      )
+          .addItemTrash(
+        item: selected,
+      )
+          .then((value) {
+        if (value) {
+          Navigator.pop(context);
+        } else {}
+      });
+    } else {
+      selected['subtotal'] = double.parse(selected['harga'].toString()) *
+          double.parse(volumeController.text.toString());
+      selected['volume'] = volumeController.text;
+      Provider.of<DonasiProvider>(
+        context,
+        listen: false,
+      )
+          .addItemTrash(
+        item: selected,
+      )
+          .then((value) {
+        if (value) {
+          Navigator.pop(context);
+        } else {}
+      });
+    }
   }
 
   @override

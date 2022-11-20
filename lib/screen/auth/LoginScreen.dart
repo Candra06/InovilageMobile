@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           listen: false,
         ).getUserData().then((response) async {
+          print(response);
           if (response['code'] == '00') {
             showSnackBar(
               context,

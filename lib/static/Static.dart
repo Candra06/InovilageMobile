@@ -104,6 +104,17 @@ List<Map<String, dynamic>> featuresAdmin = [
     ),
     "url": Navigation.listArtikelScreen,
     "arguments": "Artikel",
+  },
+  {
+    "id": 5,
+    "label": "Donasi Sampah",
+    "icon": Icon(
+      Icons.price_change,
+      color: secondaryColor,
+      size: 50,
+    ),
+    "url": Navigation.listDonasiScreen,
+    "arguments": "Donasi",
   }
 ];
 

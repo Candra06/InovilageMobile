@@ -1,11 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, await_only_futures
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/model/DetailPengirimanModel.dart';
-import 'package:inovilage/provider/PengirimanProvider.dart';
+import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
@@ -18,24 +16,23 @@ import 'package:inovilage/widget/TextWidget.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
-class AddItemScreen extends StatefulWidget {
+class AddItemDonasiScreen extends StatefulWidget {
   final String id;
-  const AddItemScreen({
+  const AddItemDonasiScreen({
     Key? key,
     required this.id,
   }) : super(key: key);
 
   @override
-  State<AddItemScreen> createState() => _AddItemScreenState();
+  State<AddItemDonasiScreen> createState() => _AddItemDonasiScreenState();
 }
 
-class _AddItemScreenState extends State<AddItemScreen> {
+class _AddItemDonasiScreenState extends State<AddItemDonasiScreen> {
   double lat = -8.339147, long = 113.5814033;
   bool loading = false;
   getDetail() async {
-    Provider.of<PengirimanProvider>(
+    Provider.of<DonasiProvider>(
       context,
       listen: false,
     ).getDetailPengiriman(
@@ -44,7 +41,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   onPressBottomTop() async {
-    Provider.of<PengirimanProvider>(
+    Provider.of<DonasiProvider>(
       context,
       listen: false,
     ).addItemTrash(
@@ -99,7 +96,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     setState(() {
       loading = true;
     });
-    var tmpItem = await Provider.of<PengirimanProvider>(
+    var tmpItem = await Provider.of<DonasiProvider>(
       context,
       listen: false,
     ).listItem;
@@ -117,14 +114,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
       for (var element in tmpItem) {
         tmpId.add(element['id']);
         tmpVolume.add(element['volume']);
-        tmpHarga.add(element['harga']);
       }
       Map<String, dynamic> body = {
         "sampah_id": tmpId.join(","),
         "volume": tmpVolume.join(","),
-        "harga_satuan": tmpHarga.join(","),
       };
-      await Provider.of<PengirimanProvider>(
+      await Provider.of<DonasiProvider>(
         context,
         listen: false,
       ).addItemPengiriman(body, widget.id).then((response) {
@@ -170,9 +165,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
       child: Scaffold(
         backgroundColor: whiteColor,
         body: SafeArea(
-          child: Consumer<PengirimanProvider>(
+          child: Consumer<DonasiProvider>(
             builder: (context, value, child) {
-              DetailPengirimanModel detail = value.detailPengiriman;
+              DetailPengirimanModel detail = value.detailDonasi;
 
               return Padding(
                 padding: EdgeInsets.all(defaultMargin),
@@ -180,7 +175,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     HeaderWidget(
-                      title: "Detail Pengiriman",
+                      title: "Detail Donasi",
                       onPressBack: onWillPop,
                     ),
                     SizedBox(
@@ -355,7 +350,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget previewItem() {
-    return Consumer<PengirimanProvider>(
+    return Consumer<DonasiProvider>(
       builder: (context, data, child) {
         List organik = data.listItem.where(
           (item) {
@@ -423,9 +418,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               colors:
                                   index % 2 == 1 ? whiteColor : greyCardCOlor,
                               title: anorganik[index]['label'],
-                              subtitle:
-                                  "${anorganik[index]['volume']}${anorganik[index]['satuan']} x ${anorganik[index]['harga']}/${anorganik[index]['satuan']}",
-                              endTitle: "${anorganik[index]['subtotal']}",
+                              subtitle: "",
+                              endTitle:
+                                  "${anorganik[index]['volume']}${anorganik[index]['satuan']}",
                             );
                           },
                         ),
@@ -436,8 +431,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           child: cardItem(
                             colors: greyCardCOlor,
                             title: "Jumlah",
-                            subtitle: "${data.totalAnorganik['volume']}kg",
-                            endTitle: data.totalAnorganik['price'].toString(),
+                            subtitle: "",
+                            endTitle: "${data.totalAnorganik['volume']}kg",
                           ),
                         ),
                         SizedBox(
@@ -474,9 +469,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               colors:
                                   index % 2 == 1 ? whiteColor : greyCardCOlor,
                               title: organik[index]['label'],
-                              subtitle:
-                                  "${organik[index]['volume']}${organik[index]['satuan']} x ${organik[index]['harga']}/${organik[index]['satuan']}",
-                              endTitle: "${organik[index]['subtotal']}",
+                              subtitle: "",
+                              endTitle:
+                                  "${organik[index]['volume']}${organik[index]['satuan']} ",
                             );
                           },
                         ),
@@ -487,8 +482,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           child: cardItem(
                             colors: greyCardCOlor,
                             title: "Jumlah",
-                            subtitle: "${data.totalOrganik['volume']}kg",
-                            endTitle: data.totalOrganik['price'].toString(),
+                            subtitle: "",
+                            endTitle: "${data.totalOrganik['volume']}kg",
                           ),
                         ),
                         SizedBox(
@@ -596,7 +591,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return const ModalAddItemWidget(
-          type: 'pengiriman',
+          type: 'donasi',
         );
       },
     );
