@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inovilage/screen/Artikel/DetailArtikelScreen.dart';
 import 'package:inovilage/screen/Artikel/FormArtikelScreen.dart';
 import 'package:inovilage/screen/Artikel/ListArtikelScreenMaster.dart';
+import 'package:inovilage/screen/Saldo/FormWithdrawScreen.dart';
+import 'package:inovilage/screen/Saldo/ListHistorySaldoScreen.dart';
 import 'package:inovilage/screen/Users/FormUsersScreen.dart';
 import 'package:inovilage/screen/Users/ListUsersScreen.dart';
 import 'package:inovilage/screen/auth/ChangeProfileScreen.dart';
@@ -45,6 +47,8 @@ class Navigation {
   static const addItemPengirimanScreen = '/addItemPengirimanScreen';
   static const detailDonaiScreen = '/detailDonaiScreen';
   static const addItemDonaiScreen = '/addItemDonaiScreen';
+  static const listSaldoScreen = '/listSaldoScreen';
+  static const formWtihdrawScreen = '/formWtihdrawScreen';
 
   static Route<dynamic>? generateRoute(RouteSettings? settings) {
     switch (settings!.name) {
@@ -182,6 +186,18 @@ class Navigation {
           child: AddItemDonasiScreen(
             id: settings.arguments as String,
           ),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case listSaldoScreen:
+        return PageTransition(
+          child: const ListHistorySaldoScreen(),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case formWtihdrawScreen:
+        return PageTransition(
+          child: const FromWithdrawScreen(),
           type: PageTransitionType.rightToLeft,
           settings: settings,
         );

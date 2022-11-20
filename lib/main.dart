@@ -4,6 +4,7 @@ import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/provider/PengirimanProvider.dart';
+import 'package:inovilage/provider/SaldoProvider.dart';
 import 'package:inovilage/provider/SampahProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<DonasiProvider>(
           create: (BuildContext context) => DonasiProvider(),
+        ),
+        ChangeNotifierProvider<SaldoProvider>(
+          create: (BuildContext context) => SaldoProvider(),
         ),
       ],
       child: MaterialApp(

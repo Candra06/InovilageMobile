@@ -46,7 +46,7 @@ class _DetailDonasiScreenState extends State<DetailDonasiScreen> {
         Navigator.pushNamed(
           context,
           Navigation.homeScreenAdmin,
-          arguments: '1',
+          arguments: '2',
         );
         // onPressBottomTop();
       } else {

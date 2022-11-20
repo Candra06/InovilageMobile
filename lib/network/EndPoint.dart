@@ -116,6 +116,7 @@ class EndPoint {
       url: "artikel/list",
     );
   }
+
   static getDetailArtikel(String id) async {
     return Network().get(
       url: "artikel/detail/$id",
@@ -165,6 +166,20 @@ class EndPoint {
   }
 
   // Saldo
+  static getSaldo() async {
+    return Network().get(
+      url: "saldo/history",
+    );
+  }
+
+  static withdrawSaldo(
+    Map<String, dynamic> body,
+  ) async {
+    return Network().post(
+      url: "saldo/penarikan",
+      body: body,
+    );
+  }
 
   //Sampah
   static getListSampah() async {

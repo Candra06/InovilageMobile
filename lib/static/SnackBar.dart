@@ -99,7 +99,7 @@ void showSnackBar(
       bottom: position.toUpperCase() == 'TOP'
           ? MediaQuery.of(context).size.height -
               MediaQuery.of(context).viewPadding.top -
-              160
+              110
           : 0,
     ),
     padding: const EdgeInsets.all(0),

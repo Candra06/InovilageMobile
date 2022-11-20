@@ -32,11 +32,13 @@ class _AccountScreenState extends State<AccountScreen> {
       context,
       listen: false,
     ).logout().then((value) {
-      setState(() {
-        loading = false;
-      });
-      if (value['code'] == '00') {
-      } else {}
+      if (mounted) {
+        setState(() {
+          loading = false;
+        });
+        if (value['code'] == '00') {
+        } else {}
+      }
     });
   }
 
@@ -147,8 +149,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        vertical: defaultMargin,
-                        horizontal: 20,
+                        vertical: 12,
+                        horizontal: defaultMargin,
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
@@ -165,6 +167,47 @@ class _AccountScreenState extends State<AccountScreen> {
                         children: [
                           TextWidget(
                             label: "Edit Profil",
+                            type: 'l1',
+                            color: fontPrimaryColor,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: fontSecondaryColor,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: defaultMargin,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        Navigation.listSaldoScreen,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: defaultMargin,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            defaultBorderRadius,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: primaryColor,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextWidget(
+                            label: "Riwayat Saldo",
                             type: 'l1',
                             color: fontPrimaryColor,
                           ),
@@ -202,8 +245,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(
-                                  vertical: defaultMargin,
-                                  horizontal: 20,
+                                  vertical: 12,
+                                  horizontal: defaultMargin,
                                 ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(
@@ -240,8 +283,8 @@ class _AccountScreenState extends State<AccountScreen> {
                       : const SizedBox(),
                   Container(
                     padding: EdgeInsets.symmetric(
-                      vertical: defaultMargin,
-                      horizontal: 20,
+                      vertical: 12,
+                      horizontal: defaultMargin,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(

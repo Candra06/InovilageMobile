@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inovilage/helper/Pref.dart';
 import 'package:inovilage/model/AuthModel.dart';
 import 'package:inovilage/network/EndPoint.dart';
 import 'package:inovilage/network/Network.dart';
@@ -13,9 +12,10 @@ class AuthProvider with ChangeNotifier {
   Map get statusKurir => _statusKurir;
   bool _loading = false;
   bool get loading => _loading;
-  List<AuthModel> _listKurir = [], _listPengguna = [];
+  List<AuthModel> _listKurir = [], _listPengguna = [], _listUsers = [];
   List<AuthModel> get listKurir => _listKurir;
   List<AuthModel> get listPengguna => _listPengguna;
+  List<AuthModel> get listUsers => _listUsers;
 
   Future<Map<String, dynamic>> register({
     required Map<String, dynamic> body,
@@ -140,11 +140,14 @@ class AuthProvider with ChangeNotifier {
   Future<Map<String, dynamic>> listUser() async {
     _listKurir = [];
     _listPengguna = [];
+    _listUsers = [];
     notifyListeners();
     try {
       AuthModel tmpData;
       var request = await EndPoint.getListUser();
       if (request['code'] == '00') {
+        _listUsers = List<AuthModel>.from(
+            request['data'].map((e) => AuthModel.fromJson(e)).toList());
         for (var element in request['data']) {
           if (element['role'] == 'Kurir') {
             tmpData = AuthModel.fromJson(element);
@@ -191,7 +194,6 @@ class AuthProvider with ChangeNotifier {
     try {
       var request = await EndPoint.logout();
       if (request['code'] == '00') {
-        _authData = null;
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('token', "");
       }
