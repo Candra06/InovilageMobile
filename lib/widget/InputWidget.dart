@@ -64,23 +64,23 @@ class UpperCaseTextFormatter extends TextInputFormatter {
 
 class _InputWidgetState extends State<InputWidget> {
   bool isFocus = false, obscure = true;
-  FocusNode _focus = new FocusNode();
+  FocusNode focus =  FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _focus.addListener(_onFocusChange);
+    focus.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
-    _focus.dispose();
+    focus.dispose();
     super.dispose();
   }
 
   void _onFocusChange() {
     setState(() {
-      isFocus = _focus.hasFocus;
+      isFocus = focus.hasFocus;
     });
   }
 
@@ -211,7 +211,7 @@ class _InputWidgetState extends State<InputWidget> {
                 ),
                 child: IntrinsicWidth(
                   child: TextFormField(
-                    focusNode: _focus,
+                    focusNode: focus,
                     textAlignVertical: TextAlignVertical.center,
                     obscureText: widget.obscure ? obscure : widget.obscure,
                     controller: widget.controller,

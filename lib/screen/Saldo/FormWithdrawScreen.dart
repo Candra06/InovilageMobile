@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, await_only_futures
 
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
@@ -95,7 +95,6 @@ class _FromWithdrawScreenState extends State<FromWithdrawScreen> {
         context,
         listen: false,
       ).withdraw(body).then((value) {
-        print(value);
         if (value['code'] == '00') {
           Provider.of<AuthProvider>(
             context,

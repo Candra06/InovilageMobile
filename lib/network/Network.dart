@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:inovilage/helper/Pref.dart';
 
 class Network {
-  final String server = "https://inovilage.waserdajaya.store/public/api/";
+  final String server = "https://inovilage.waserdajaya.store/api/";
 
   Map<String, String> headers = {'content-type': 'application/json'};
   final String codeError = "-1";
@@ -44,6 +44,7 @@ class Network {
       Uri.parse(sendUrl),
       headers: headers,
     );
+    print(response);
     return json.decode(response.body);
   }
 

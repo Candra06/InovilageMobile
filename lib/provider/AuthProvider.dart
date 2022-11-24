@@ -67,6 +67,7 @@ class AuthProvider with ChangeNotifier {
   Future<Map<String, dynamic>> getUserData() async {
     try {
       var request = await EndPoint.getUserData();
+      print(request);
       if (request['code'] == '00') {
         _authData = AuthModel.fromJson(request['data']);
       }
@@ -74,6 +75,7 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
       return request;
     } catch (e) {
+      print(e);
       return {
         "code": Network().codeError,
         "message": e.toString(),

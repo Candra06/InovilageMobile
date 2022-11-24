@@ -110,7 +110,7 @@ class _AddItemDonasiScreenState extends State<AddItemDonasiScreen> {
         type: 'warning',
       );
     } else {
-      List tmpId = [], tmpVolume = [], tmpHarga = [];
+      List tmpId = [], tmpVolume = [];
       for (var element in tmpItem) {
         tmpId.add(element['id']);
         tmpVolume.add(element['volume']);

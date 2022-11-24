@@ -109,7 +109,6 @@ class DonasiProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }

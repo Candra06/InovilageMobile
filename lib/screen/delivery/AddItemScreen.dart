@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, await_only_futures
 
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
@@ -18,7 +18,6 @@ import 'package:inovilage/widget/TextWidget.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class AddItemScreen extends StatefulWidget {
   final String id;

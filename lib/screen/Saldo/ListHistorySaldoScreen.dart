@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, await_only_futures
 
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
@@ -9,7 +9,6 @@ import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/themes.dart';
 import 'package:inovilage/widget/HeaderWidger.dart';
 import 'package:inovilage/widget/LoadingWidget.dart';
-import 'package:inovilage/widget/ModalOptionWidget.dart';
 import 'package:inovilage/widget/TextWidget.dart';
 import 'package:provider/provider.dart';
 

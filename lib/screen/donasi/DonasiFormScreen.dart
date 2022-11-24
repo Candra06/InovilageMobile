@@ -1,11 +1,10 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/provider/DonasiProvider.dart';
-import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/Static.dart';
 import 'package:inovilage/static/Utils.dart';
@@ -84,7 +83,6 @@ class _DonasiFormScreenState extends State<DonasiFormScreen> {
       "long_address": long.toString(),
       "jenis_sampah": typeController.text,
     };
-    print(body);
     await Provider.of<DonasiProvider>(
       context,
       listen: false,
@@ -283,7 +281,7 @@ class _DonasiFormScreenState extends State<DonasiFormScreen> {
                   vertical: 24,
                 ),
                 child: ButtonWidget(
-                  label: "Ajukan Pengiriman Sampah",
+                  label: "Ajukan Donasi",
                   isLoading: loading,
                   theme: loading ? 'disable' : 'primary',
                   onPressed: () {

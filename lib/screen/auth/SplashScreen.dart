@@ -23,23 +23,15 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   getToken() async {
     var token = await Pref.getToken();
-    
+
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushNamed(
+        context,
+        Navigation.loginScreen,
+      );
+    });
     if (token.toString().isEmpty || token == null) {
-      Timer(const Duration(seconds: 2), () {
-        Navigator.pushNamed(
-          context,
-          Navigation.loginScreen,
-        );
-      });
     } else {
-      await Provider.of<SampahProvider>(
-        context,
-        listen: false,
-      ).getListTrash();
-      await Provider.of<ArtikelProvider>(
-        context,
-        listen: false,
-      ).getArtikelList();
       await Provider.of<AuthProvider>(
         context,
         listen: false,

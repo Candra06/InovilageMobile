@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:inovilage/model/AuthModel.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
-import 'package:inovilage/static/Static.dart';
 import 'package:inovilage/static/Utils.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
