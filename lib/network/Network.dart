@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:inovilage/helper/Pref.dart';
 
 class Network {
-  final String server = "https://inovilage.waserdajaya.store/public/api/";
+  final String server = "https://inovilage.waserdajaya.store/api/";
 
   Map<String, String> headers = {'content-type': 'application/json'};
   final String codeError = "-1";
@@ -39,11 +39,13 @@ class Network {
       headers['Authorization'] = "$tokenAuth";
     }
     headers.addAll(sendHeader);
-
+    print(jsonEncode(sendHeader));
+    print(jsonEncode(sendUrl));
     http.Response response = await http.get(
       Uri.parse(sendUrl),
       headers: headers,
     );
+    print(response);
     return json.decode(response.body);
   }
 
@@ -75,13 +77,15 @@ class Network {
     if (tokenAuth.toString().isNotEmpty) {
       headers['Authorization'] = "$tokenAuth";
     }
-
+    print(jsonEncode(sendHeader));
+    print(jsonEncode(sendBody));
+    print(jsonEncode(sendUrl));
     http.Response response = await http.post(
       Uri.parse(sendUrl),
       body: json.encode(sendBody),
       headers: headers,
     );
-
+    print(response);
     try {
       return json.decode(response.body);
     } catch (e) {

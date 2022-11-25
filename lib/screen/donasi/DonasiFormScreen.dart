@@ -283,7 +283,7 @@ class _DonasiFormScreenState extends State<DonasiFormScreen> {
                   vertical: 24,
                 ),
                 child: ButtonWidget(
-                  label: "Ajukan Pengiriman Sampah",
+                  label: "Ajukan Donasi",
                   isLoading: loading,
                   theme: loading ? 'disable' : 'primary',
                   onPressed: () {

@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/SampahProvider.dart';
 import 'package:inovilage/screen/home/user/LandingAdminScreen.dart';
 import 'package:inovilage/screen/home/user/LandingKurirScreen.dart';
 import 'package:inovilage/screen/home/user/LandingUserScreen.dart';
@@ -23,6 +27,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       load = true;
     });
+     await Provider.of<SampahProvider>(
+        context,
+        listen: false,
+      ).getListTrash();
+      await Provider.of<ArtikelProvider>(
+        context,
+        listen: false,
+      ).getArtikelList();
     var data = Provider.of<AuthProvider>(
       context,
       listen: false,

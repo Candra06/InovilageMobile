@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/static/themes.dart';
+import 'package:inovilage/widget/ButtonWidget.dart';
 import 'package:inovilage/widget/CardArtikelWidget.dart';
 import 'package:inovilage/widget/HeaderWidger.dart';
 import 'package:inovilage/widget/InputWidget.dart';
@@ -18,7 +20,10 @@ class FormArtikelScreen extends StatefulWidget {
 }
 
 class _FormArtikelScreenState extends State<FormArtikelScreen> {
-  TextEditingController searchController = TextEditingController();
+  TextEditingController titleController = TextEditingController(),
+      statusController = TextEditingController();
+  final HtmlEditorController controller = HtmlEditorController();
+  bool loading = false;
   String keyWord = "";
   Timer? _debounce;
   searchInputOnChange(value) {
@@ -41,128 +46,69 @@ class _FormArtikelScreenState extends State<FormArtikelScreen> {
       backgroundColor: whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: defaultMargin,
-                vertical: defaultMargin,
-              ),
-              child: Consumer<ArtikelProvider>(
-                builder: (context, data, child) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const HeaderWidget(
-                        title: "List Artikel",
-                      ),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                      buttonAdd(),
-                      Consumer<ArtikelProvider>(
-                        builder: (context, data, child) {
-                          String valueSearch = keyWord.toLowerCase();
-
-                          List dataArtikel = data.listArtikel.where(
-                            (item) {
-                              if (item.judul!
-                                  .toLowerCase()
-                                  .contains(valueSearch)) {
-                                return true;
-                              }
-                              return false;
-                            },
-                          ).toList();
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: defaultMargin,
-                              ),
-                              InputWidget(
-                                title: "hidden",
-                                hintText: "Cari",
-                                background: lightPrimaryColor,
-                                border: 'none',
-                                iconLeft: Icons.search,
-                                onChanged: searchInputOnChange,
-                              ),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: dataArtikel.length,
-                                itemBuilder: (context, index) {
-                                  Map item = dataArtikel[index];
-                                  return CardArtikelWidget(
-                                    title: item['judul'],
-                                    onPressed: () {},
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: data.listArtikel.length,
-                        itemBuilder: (context, index) {
-                          Map item = data.listArtikel[index].toJson();
-                          return CardArtikelWidget(
-                            title: item['judul'],
-                            onPressed: () {},
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                },
-              )),
-        ),
-      ),
-    );
-  }
-
-  Widget buttonAdd() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Navigation.formUsersScreen,
-          arguments: {
-            "typepage": "add",
-          },
-        );
-      },
-      child: Container(
-        width: 170,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: secondaryColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              defaultBorderRadius,
-            ),
+          padding: EdgeInsets.all(
+            defaultMargin,
           ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.person_add,
-              color: whiteColor,
-            ),
-            const SizedBox(
-              width: 4,
-            ),
-            TextWidget(
-              label: "Tambah Artikel",
-              color: whiteColor,
-              weight: 'bold',
-            )
-          ],
+          child: Column(
+            children: <Widget>[
+              const HeaderWidget(
+                title: "Tambah Artikel",
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: defaultMargin,
+                    ),
+                    child: InputWidget(
+                      title: "Judul Artikel",
+                      hintText: "Nama Lengkap",
+                      controller: titleController,
+                      iconLeft: Icons.account_circle_outlined,
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      bottom: defaultMargin,
+                    ),
+                    child: InputWidget(
+                      title: "Status",
+                      hintText: "Status",
+                      controller: titleController,
+                      iconLeft: Icons.account_circle_outlined,
+                    ),
+                  ),
+                  HtmlEditor(
+                    controller: controller,
+                    htmlEditorOptions: const HtmlEditorOptions(
+                      hint: 'Your text here...',
+                      shouldEnsureVisible: false,
+                    ),
+                    htmlToolbarOptions: const HtmlToolbarOptions(
+                      toolbarPosition: ToolbarPosition.aboveEditor, //by default
+                      toolbarType: ToolbarType.nativeGrid, //by default
+                    ),
+                    otherOptions: OtherOptions(height: 550),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: defaultMargin,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ButtonWidget(
+                  label: "Simpan",
+                  isLoading: loading,
+                  theme: loading ? 'disable' : 'primary',
+                  onPressed: () {},
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

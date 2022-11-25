@@ -280,7 +280,7 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
                   vertical: 24,
                 ),
                 child: ButtonWidget(
-                  label: "Ajukan Donasi",
+                  label: "Ajukan Pengiriman Sampah",
                   isLoading: loading,
                   theme: loading ? 'disable' : 'primary',
                   onPressed: () {
