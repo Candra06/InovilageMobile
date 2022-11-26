@@ -11,8 +11,9 @@ class ArtikelProvider with ChangeNotifier {
   List<ArtikelModel> get listArtikel => _listArtikel!;
   ArtikelModel get detailArtikel => _detailArtikel!;
 
-  Future<Map<String, dynamic>>? getArtikelList() async {
+  Future<Map<String, dynamic>> getArtikelList() async {
     _loading = true;
+    _listArtikel = [];
     notifyListeners();
     try {
       var data = await EndPoint.getArtikel();
@@ -37,7 +38,7 @@ class ArtikelProvider with ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>>? getDetailArtikel(String id) async {
+  Future<Map<String, dynamic>> getDetailArtikel(String id) async {
     try {
       var data = await EndPoint.getDetailArtikel(id);
       if (data['code'] == '00') {
@@ -49,7 +50,7 @@ class ArtikelProvider with ChangeNotifier {
       }
       _loading = false;
       notifyListeners();
-      return data!;
+      return data;
     } catch (e) {
       _loading = false;
       notifyListeners();
@@ -60,55 +61,35 @@ class ArtikelProvider with ChangeNotifier {
     }
   }
 
-  // Future<Map<String, dynamic>>? postArtikel(
-  //     {Map<String, dynamic>? body}) async {
-  //   try {
-  //     var data = await EndPoint.postAArtikel(body!);
-  //     Map hasil = data;
+  Future<Map<String, dynamic>> postArtikel(
+      {required Map<String, dynamic> body}) async {
+    try {
+      var data = await EndPoint.postArtikel(
+        body: body,
+      );
 
-  //     notifyListeners();
-  //     if (hasil['status_code'] == 200) {
-  //       return {
-  //         "status": true,
-  //         "message": "Berhasil Login",
-  //       };
-  //     } else {
-  //       return {
-  //         "status": false,
-  //         "message": "Gagal Login",
-  //       };
-  //     }
-  //   } catch (e) {
-  //     return {
-  //       "status": false,
-  //       "message": e.toString(),
-  //     };
-  //   }
-  // }
+      return data;
+    } catch (e) {
+      return {
+        "status": false,
+        "message": e.toString(),
+      };
+    }
+  }
 
-  // Future<Map<String, dynamic>>? editArtikel(
-  //     {String? id, Map<String, dynamic>? body}) async {
-  //   try {
-  //     var data = await EndPoint.editArtikel(id!, body!);
-  //     Map hasil = data;
-
-  //     notifyListeners();
-  //     if (hasil['status_code'] == 200) {
-  //       return {
-  //         "status": true,
-  //         "message": "Berhasil Login",
-  //       };
-  //     } else {
-  //       return {
-  //         "status": false,
-  //         "message": "Gagal Login",
-  //       };
-  //     }
-  //   } catch (e) {
-  //     return {
-  //       "status": false,
-  //       "message": e.toString(),
-  //     };
-  //   }
-  // }
+  Future<Map<String, dynamic>> editArtikel(
+      {required String id, required Map<String, dynamic> body}) async {
+    try {
+      var data = await EndPoint.editArtikel(
+        id: id,
+        body: body,
+      );
+      return data;
+    } catch (e) {
+      return {
+        "status": false,
+        "message": e.toString(),
+      };
+    }
+  }
 }

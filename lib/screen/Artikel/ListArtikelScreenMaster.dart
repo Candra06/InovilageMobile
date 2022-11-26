@@ -95,26 +95,24 @@ class _ListArtikelScreenMasterState extends State<ListArtikelScreenMaster> {
                                 shrinkWrap: true,
                                 itemCount: dataArtikel.length,
                                 itemBuilder: (context, index) {
+                                  print(dataArtikel.length);
                                   Map item = dataArtikel[index].toJson();
                                   return CardArtikelWidget(
                                     title: item['judul'],
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        Navigation.formArtikelScreen,
+                                        arguments: {
+                                          "typepage": "edit",
+                                          "data": item,
+                                        },
+                                      );
+                                    },
                                   );
                                 },
                               ),
                             ],
-                          );
-                        },
-                      ),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: data.listArtikel.length,
-                        itemBuilder: (context, index) {
-                          Map item = data.listArtikel[index].toJson();
-                          return CardArtikelWidget(
-                            title: item['judul'],
-                            onPressed: () {},
                           );
                         },
                       ),
@@ -132,7 +130,7 @@ class _ListArtikelScreenMasterState extends State<ListArtikelScreenMaster> {
       onTap: () {
         Navigator.pushNamed(
           context,
-          Navigation.formUsersScreen,
+          Navigation.formArtikelScreen,
           arguments: {
             "typepage": "add",
           },

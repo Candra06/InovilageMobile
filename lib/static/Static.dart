@@ -60,6 +60,17 @@ List<Map<String, dynamic>> jenisSampah = [
   },
 ];
 
+List<Map<String, dynamic>> statusArtikel = [
+  {
+    "id": 1,
+    "label": "Publish",
+  },
+  {
+    "id": 2,
+    "label": "Draft",
+  },
+];
+
 List<Map<String, dynamic>> featuresAdmin = [
   {
     "id": 1,

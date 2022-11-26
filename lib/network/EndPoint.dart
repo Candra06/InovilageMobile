@@ -123,6 +123,25 @@ class EndPoint {
     );
   }
 
+  static postArtikel({
+    required Map<String, dynamic> body,
+  }) async {
+    return Network().post(
+      url: "artikel/create",
+      body: body,
+    );
+  }
+
+  static editArtikel({
+    required Map<String, dynamic> body,
+    required String id,
+  }) async {
+    return Network().post(
+      url: "artikel/update/$id",
+      body: body,
+    );
+  }
+
   //Donasi
   static getListdonasi() async {
     return Network().get(

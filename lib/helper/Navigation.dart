@@ -49,6 +49,7 @@ class Navigation {
   static const addItemDonaiScreen = '/addItemDonaiScreen';
   static const listSaldoScreen = '/listSaldoScreen';
   static const formWtihdrawScreen = '/formWtihdrawScreen';
+  
 
   static Route<dynamic>? generateRoute(RouteSettings? settings) {
     switch (settings!.name) {
