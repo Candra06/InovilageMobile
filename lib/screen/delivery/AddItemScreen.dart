@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/model/DetailPengirimanModel.dart';
+import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/provider/PengirimanProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/Utils.dart';
@@ -18,7 +19,6 @@ import 'package:inovilage/widget/TextWidget.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class AddItemScreen extends StatefulWidget {
   final String id;
@@ -127,8 +127,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
       await Provider.of<PengirimanProvider>(
         context,
         listen: false,
-      ).addItemPengiriman(body, widget.id).then((response) {
+      ).addItemPengiriman(body, widget.id).then((response) async {
         if (response['code'] == '00') {
+          await Provider.of<AuthProvider>(
+            context,
+            listen: false,
+          ).dashboard;
           showSnackBar(
             context,
             "Success",

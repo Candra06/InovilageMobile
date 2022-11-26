@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+// import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
@@ -35,6 +34,10 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
   int selectedItem = 1000;
   double lat = -8.339147, long = 113.5814033;
   bool loading = false, isChecked = false;
+  // MapController controller = MapController(
+  //   initMapWithUserPosition: false,
+  //   initPosition: GeoPoint(latitude: -8.339147, longitude: 113.5814033),
+  // );
 
   getData() async {
     var auth = Provider.of<AuthProvider>(
@@ -83,7 +86,7 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
       "long_address": long.toString(),
       "jenis_sampah": typeController.text,
     };
-    
+
     await Provider.of<PengirimanProvider>(
       context,
       listen: false,
@@ -221,7 +224,49 @@ class _DeliveryFormScreenState extends State<DeliveryFormScreen> {
               SizedBox(
                 width: double.infinity,
                 height: 300,
-                child: OpenStreetMapSearchAndPick(
+                child:
+                    // child: OSMFlutter(
+                    //   controller: controller,
+                    //   trackMyPosition: false,
+                    //   initZoom: 12,
+                    //   minZoomLevel: 8,
+                    //   maxZoomLevel: 14,
+                    //   stepZoom: 1.0,
+                    //   userLocationMarker: UserLocationMaker(
+                    //     personMarker: MarkerIcon(
+                    //       icon: Icon(
+                    //         Icons.location_history_rounded,
+                    //         color: Colors.red,
+                    //         size: 48,
+                    //       ),
+                    //     ),
+                    //     directionArrowMarker: MarkerIcon(
+                    //       icon: Icon(
+                    //         Icons.double_arrow,
+                    //         size: 48,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   roadConfiguration: RoadConfiguration(
+                    //     startIcon: MarkerIcon(
+                    //       icon: Icon(
+                    //         Icons.person,
+                    //         size: 64,
+                    //         color: Colors.brown,
+                    //       ),
+                    //     ),
+                    //     roadColor: Colors.yellowAccent,
+                    //   ),
+                    //   markerOption: MarkerOption(
+                    //       defaultMarker: MarkerIcon(
+                    //     icon: Icon(
+                    //       Icons.person_pin_circle,
+                    //       color: Colors.blue,
+                    //       size: 56,
+                    //     ),
+                    //   )),
+                    // )
+                    OpenStreetMapSearchAndPick(
                   center: LatLong(lat, long),
                   buttonColor: primaryColor,
                   buttonText: 'Pilih Lokasi',

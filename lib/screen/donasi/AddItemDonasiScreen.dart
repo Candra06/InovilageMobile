@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/model/DetailPengirimanModel.dart';
+import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/provider/DonasiProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/Utils.dart';
@@ -122,8 +123,12 @@ class _AddItemDonasiScreenState extends State<AddItemDonasiScreen> {
       await Provider.of<DonasiProvider>(
         context,
         listen: false,
-      ).addItemPengiriman(body, widget.id).then((response) {
+      ).addItemPengiriman(body, widget.id).then((response) async {
         if (response['code'] == '00') {
+          await Provider.of<AuthProvider>(
+            context,
+            listen: false,
+          ).dashboard;
           showSnackBar(
             context,
             "Success",

@@ -24,13 +24,13 @@ class _SplashScreenState extends State<SplashScreen> {
   getToken() async {
     var token = await Pref.getToken();
 
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushNamed(
-        context,
-        Navigation.formArtikelScreen,
-      );
-    });
     if (token.toString().isEmpty || token == null) {
+      Timer(const Duration(seconds: 2), () {
+        Navigator.pushNamed(
+          context,
+          Navigation.loginScreen,
+        );
+      });
     } else {
       await Provider.of<AuthProvider>(
         context,
