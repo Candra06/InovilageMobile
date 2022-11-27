@@ -6,6 +6,7 @@ import 'package:inovilage/helper/Pref.dart';
 
 class Network {
   final String server = "https://inovilage.waserdajaya.store/api/";
+  // final String server = "https://api.xsamp.com/api/";
 
   Map<String, String> headers = {'content-type': 'application/json'};
   final String codeError = "-1";

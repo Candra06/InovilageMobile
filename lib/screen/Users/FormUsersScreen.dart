@@ -296,6 +296,7 @@ class _FormUsersScreenState extends State<FormUsersScreen> {
                 child: InputWidget(
                   title: "hidden",
                   hintText: "Alamat",
+                  
                   maxChar: 255,
                   controller: addressController,
                   iconLeft: Icons.location_on_outlined,

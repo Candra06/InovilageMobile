@@ -57,19 +57,20 @@ class _DonasiFormScreenState extends State<DonasiFormScreen> {
       if (isChecked) {
         lat = -8.339147;
         long = 113.5814033;
+        List<Placemark> locations = await placemarkFromCoordinates(lat, long);
+
+        String address =
+            "${locations[1].street.toString()} ${locations[1].subLocality.toString()} ${locations[0].locality.toString()}, ${locations[0].postalCode.toString()} ";
+        setState(() {
+          addressController.text = address;
+        });
       } else {
         lat = double.parse(auth!.latAddress.toString());
         long = double.parse(auth.longAddress.toString());
+        setState(() {
+          addressController.text = auth.alamat.toString();
+        });
       }
-      List<Placemark> locations = await placemarkFromCoordinates(lat, long);
-
-      String address =
-          "${locations[1].street.toString()} ${locations[1].subLocality.toString()} ${locations[0].locality.toString()}, ${locations[0].postalCode.toString()} ";
-      // print(jsonEncode(locations));
-
-      setState(() {
-        addressController.text = address;
-      });
     } catch (e) {}
   }
 
@@ -84,7 +85,6 @@ class _DonasiFormScreenState extends State<DonasiFormScreen> {
       "long_address": long.toString(),
       "jenis_sampah": typeController.text,
     };
-    print(body);
     await Provider.of<DonasiProvider>(
       context,
       listen: false,
@@ -216,6 +216,7 @@ class _DonasiFormScreenState extends State<DonasiFormScreen> {
                   title: "hidden",
                   hintText: "Alamat",
                   controller: addressController,
+                  maxChar: 255,
                   iconLeft: Icons.location_on_outlined,
                 ),
               ),
