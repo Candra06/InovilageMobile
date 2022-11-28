@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "732115203780",
+    "project_id": "notiftesting-3e82f",
+    "storage_bucket": "notiftesting-3e82f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732115203780:android:3457cbebabb21b2a26bb91",
+        "android_client_info": {
+          "package_name": "com.app.xsamp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732115203780-m12dm6o5f7m6bv3e354rcqqdq0sqtcko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkJvjQF6FjARbZHHYtag56pCjcjd7BmPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732115203780-m12dm6o5f7m6bv3e354rcqqdq0sqtcko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:inovilage/helper/Navigation.dart';
 import 'package:inovilage/helper/Pref.dart';
@@ -61,10 +62,17 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  getTokenFcm() async {
+    await FirebaseMessaging.instance.getToken().then((value) {
+      print(value);
+    });
+  }
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
       getToken();
+      getTokenFcm();
     });
 
     super.initState();

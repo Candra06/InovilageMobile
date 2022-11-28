@@ -3,7 +3,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:inovilage/helper/Navigation.dart';
+import 'package:inovilage/helper/PushNotificationService.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
 import 'package:inovilage/static/SnackBar.dart';
 import 'package:inovilage/static/images.dart';
@@ -151,6 +153,14 @@ class _LoginScreenState extends State<LoginScreen> {
           },
         )) ??
         false;
+  }
+
+  final FlutterLocalNotificationsPlugin plugins =
+      FlutterLocalNotificationsPlugin();
+  @override
+  void initState() {
+    PushNotificationService.initialize(plugins);
+    super.initState();
   }
 
   @override

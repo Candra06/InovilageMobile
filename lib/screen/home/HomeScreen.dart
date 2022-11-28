@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:inovilage/provider/ArtikelProvider.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
@@ -27,14 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       load = true;
     });
-     await Provider.of<SampahProvider>(
-        context,
-        listen: false,
-      ).getListTrash();
-      await Provider.of<ArtikelProvider>(
-        context,
-        listen: false,
-      ).getArtikelList();
+    await Provider.of<SampahProvider>(
+      context,
+      listen: false,
+    ).getListTrash();
+    await Provider.of<ArtikelProvider>(
+      context,
+      listen: false,
+    ).getArtikelList();
     var data = Provider.of<AuthProvider>(
       context,
       listen: false,
@@ -48,6 +50,29 @@ class _HomeScreenState extends State<HomeScreen> {
       load = false;
       loadContent();
     });
+  }
+
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      announcement: false,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print("User granted permission");
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print("User provissional permission");
+    } else {
+      print("User decline permission");
+    }
   }
 
   loadContent() {
@@ -67,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Future.delayed(Duration.zero, () {
       getRole();
     });
+    requestPermission();
     super.initState();
   }
 
