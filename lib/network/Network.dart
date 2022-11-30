@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, depend_on_referenced_packages
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -5,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:inovilage/helper/Pref.dart';
 
 class Network {
-  final String server = "https://inovilage.waserdajaya.store/api/";
-  // final String server = "https://api.xsamp.com/api/";
+  // final String server = "https://inovilage.waserdajaya.store/api/";
+  final String server = "https://api.xsamp.com/api/";
 
   Map<String, String> headers = {'content-type': 'application/json'};
   final String codeError = "-1";
