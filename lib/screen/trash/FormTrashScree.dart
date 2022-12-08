@@ -171,7 +171,7 @@ class _FormTrashScreenState extends State<FormTrashScreen> {
   getPage() {
     var args = ModalRoute.of(context)!.settings.arguments as Map;
     if (args.isNotEmpty) {
-      if (args['data'] != null) {
+      if (args['data'] != '') {
         Map data = args['data'];
 
         nameController.text = data['nama'];

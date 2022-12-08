@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:inovilage/provider/AuthProvider.dart';
+import 'package:inovilage/provider/SampahProvider.dart';
 import 'package:inovilage/static/Static.dart';
 import 'package:inovilage/static/images.dart';
 import 'package:inovilage/static/themes.dart';
@@ -17,6 +18,17 @@ class LandingAdminScreen extends StatefulWidget {
 }
 
 class _LandingAdminScreenState extends State<LandingAdminScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<SampahProvider>(
+        context,
+        listen: false,
+      ).getListTrash();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

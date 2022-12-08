@@ -99,273 +99,275 @@ class _AccountScreenState extends State<AccountScreen> {
     return SafeArea(
       top: true,
       child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(
-            defaultMargin,
-          ),
-          child: Consumer<AuthProvider>(
-            builder: (context, user, child) {
-              return Column(
-                children: [
-                  const HeaderWidget(
-                    title: "Profile",
-                    hideBackPress: true,
-                  ),
-                  SizedBox(
-                    height: defaultMargin * 3,
-                  ),
-                  const ImageWidget(
-                    image: iconPengguna,
-                    height: 125,
-                    width: 125,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  TextWidget(
-                    label: "${user.authData!.role}",
-                    weight: 'bold',
-                    color: secondaryColor,
-                    type: 's1',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextWidget(
-                    label: "${user.authData!.name}",
-                    weight: 'bold',
-                    color: secondaryColor,
-                    type: 's2',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        Navigation.changeProfileScreen,
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: defaultMargin,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            defaultBorderRadius,
-                          ),
-                        ),
-                        border: Border.all(
-                          color: primaryColor,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextWidget(
-                            label: "Edit Profil",
-                            type: 'l1',
-                            color: fontPrimaryColor,
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: fontSecondaryColor,
-                          )
-                        ],
-                      ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(
+              defaultMargin,
+            ),
+            child: Consumer<AuthProvider>(
+              builder: (context, user, child) {
+                return Column(
+                  children: [
+                    const HeaderWidget(
+                      title: "Profile",
+                      hideBackPress: true,
                     ),
-                  ),
-                  SizedBox(
-                    height: defaultMargin,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        Navigation.listSaldoScreen,
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: defaultMargin,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            defaultBorderRadius,
-                          ),
-                        ),
-                        border: Border.all(
-                          color: primaryColor,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextWidget(
-                            label: "Riwayat Saldo",
-                            type: 'l1',
-                            color: fontPrimaryColor,
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: fontSecondaryColor,
-                          )
-                        ],
-                      ),
+                    SizedBox(
+                      height: defaultMargin * 3,
                     ),
-                  ),
-                  SizedBox(
-                    height: defaultMargin,
-                  ),
-                  user.authData!.role == 'Kurir'
-                      ? Column(
+                    const ImageWidget(
+                      image: iconPengguna,
+                      height: 125,
+                      width: 125,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    TextWidget(
+                      label: "${user.authData!.role}",
+                      weight: 'bold',
+                      color: secondaryColor,
+                      type: 's1',
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextWidget(
+                      label: "${user.authData!.name}",
+                      weight: 'bold',
+                      color: secondaryColor,
+                      type: 's2',
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          Navigation.changeProfileScreen,
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: defaultMargin,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(
+                              defaultBorderRadius,
+                            ),
+                          ),
+                          border: Border.all(
+                            color: primaryColor,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                if (user.statusKurir['status'] == 'Inorder') {
-                                  showSnackBar(
-                                    context,
-                                    'Gagal merubah status',
-                                    subtitle:
-                                        "Anda sedang dalam order, silahkan hubungi admin",
-                                    type: 'error',
-                                    duration: 5,
-                                    position: 'Top',
-                                  );
-                                } else {
-                                  showConfirmDelete(
-                                    user.statusKurir['status'],
-                                  );
-                                }
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 12,
-                                  horizontal: defaultMargin,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(
-                                      defaultBorderRadius,
+                            TextWidget(
+                              label: "Edit Profil",
+                              type: 'l1',
+                              color: fontPrimaryColor,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: fontSecondaryColor,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: defaultMargin,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          Navigation.listSaldoScreen,
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: defaultMargin,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(
+                              defaultBorderRadius,
+                            ),
+                          ),
+                          border: Border.all(
+                            color: primaryColor,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextWidget(
+                              label: "Riwayat Saldo",
+                              type: 'l1',
+                              color: fontPrimaryColor,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: fontSecondaryColor,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: defaultMargin,
+                    ),
+                    user.authData!.role == 'Kurir'
+                        ? Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  if (user.statusKurir['status'] == 'Inorder') {
+                                    showSnackBar(
+                                      context,
+                                      'Gagal merubah status',
+                                      subtitle:
+                                          "Anda sedang dalam order, silahkan hubungi admin",
+                                      type: 'error',
+                                      duration: 5,
+                                      position: 'Top',
+                                    );
+                                  } else {
+                                    showConfirmDelete(
+                                      user.statusKurir['status'],
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: defaultMargin,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                        defaultBorderRadius,
+                                      ),
+                                    ),
+                                    border: Border.all(
+                                      color: primaryColor,
                                     ),
                                   ),
-                                  border: Border.all(
-                                    color: primaryColor,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      TextWidget(
+                                        label: "Ubah Status",
+                                        type: 'l1',
+                                        color: fontPrimaryColor,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: fontSecondaryColor,
+                                      )
+                                    ],
                                   ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextWidget(
-                                      label: "Ubah Status",
-                                      type: 'l1',
-                                      color: fontPrimaryColor,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: fontSecondaryColor,
-                                    )
-                                  ],
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: defaultMargin,
-                            ),
-                          ],
-                        )
-                      : const SizedBox(),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: defaultMargin,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(
-                          defaultBorderRadius,
-                        ),
-                      ),
-                      border: Border.all(
-                        color: primaryColor,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextWidget(
-                          label: "Bantuan",
-                          type: 'l1',
-                          color: fontPrimaryColor,
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: fontSecondaryColor,
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      logOut();
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
+                              SizedBox(
+                                height: defaultMargin,
+                              ),
+                            ],
+                          )
+                        : const SizedBox(),
+                    Container(
                       padding: EdgeInsets.symmetric(
-                        vertical: defaultMargin,
-                        horizontal: 20,
+                        vertical: 12,
+                        horizontal: defaultMargin,
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(
-                            defaultBorderRadius * 2,
+                            defaultBorderRadius,
                           ),
                         ),
                         border: Border.all(
-                          color: secondaryColor,
-                          width: 2,
+                          color: primaryColor,
                         ),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          loading
-                              ? const SizedBox(
-                                  child: LoadingWidget(
-                                    customWidth: 20,
-                                    customHeight: 20,
-                                  ),
-                                  height: 30.0,
-                                  width: 30.0,
-                                )
-                              : Icon(
-                                  Icons.logout_outlined,
-                                  color: secondaryColor,
-                                ),
-                          loading
-                              ? const SizedBox()
-                              : TextWidget(
-                                  label: "Logout",
-                                  type: 'b1',
-                                  color: secondaryColor,
-                                  weight: 'bold',
-                                ),
+                          TextWidget(
+                            label: "Bantuan",
+                            type: 'l1',
+                            color: fontPrimaryColor,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: fontSecondaryColor,
+                          )
                         ],
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        logOut();
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.symmetric(
+                          vertical: defaultMargin,
+                          horizontal: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(
+                              defaultBorderRadius * 2,
+                            ),
+                          ),
+                          border: Border.all(
+                            color: secondaryColor,
+                            width: 2,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            loading
+                                ? const SizedBox(
+                                    child: LoadingWidget(
+                                      customWidth: 20,
+                                      customHeight: 20,
+                                    ),
+                                    height: 30.0,
+                                    width: 30.0,
+                                  )
+                                : Icon(
+                                    Icons.logout_outlined,
+                                    color: secondaryColor,
+                                  ),
+                            loading
+                                ? const SizedBox()
+                                : TextWidget(
+                                    label: "Logout",
+                                    type: 'b1',
+                                    color: secondaryColor,
+                                    weight: 'bold',
+                                  ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

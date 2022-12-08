@@ -147,7 +147,7 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
                                   label: value.loading
                                       ? "Memuat..."
                                       : formatrupiah(
-                                          amount: dashboard['saldo'],
+                                          amount: dashboard['saldo'].toString(),
                                           awalan: 'Rp. ',
                                         ),
                                   color: fontPrimaryColor,
@@ -179,6 +179,7 @@ class _LandingUserScreenState extends State<LandingUserScreen> {
                             child: Column(
                               children: [
                                 TextWidget(
+                                  textAlign: TextAlign.center,
                                   label: "Total Pick Up",
                                   color: fontPrimaryColor,
                                 ),

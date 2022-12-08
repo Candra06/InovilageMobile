@@ -15,7 +15,7 @@ class TrashModel {
 
   factory TrashModel.fromJson(Map<String, dynamic> json) => TrashModel(
         id: json["id"] ?? 0,
-        harga: json["harga"] ?? "",
+        harga: json["harga"].toString(),
         jenis: json["jenis"] ?? "",
         nama: json["nama"] ?? "",
         satuan: json["satuan"] ?? "",

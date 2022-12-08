@@ -34,6 +34,7 @@ class SampahProvider with ChangeNotifier {
       notifyListeners();
       return response;
     } catch (e) {
+      print(e);
       return {
         "code": Network().codeError,
         "message": e.toString(),

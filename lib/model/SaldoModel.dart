@@ -11,15 +11,15 @@ class SaldoModel {
     this.updatedAt,
   });
 
-  int? id;
-  String? usersId, createdBy, jumlahTransaksi, jenis, name;
+  int? id, createdBy, usersId;
+  String? jumlahTransaksi, jenis, name;
   DateTime? tanggal, createdAt, updatedAt;
 
   factory SaldoModel.fromJson(Map<String, dynamic> json) => SaldoModel(
         id: json["id"] ?? 0,
         usersId: json["users_id"] ?? "",
         createdBy: json["created_by"] ?? "",
-        jumlahTransaksi: json["jumlah_transaksi"] ?? "",
+        jumlahTransaksi: json["jumlah_transaksi"].toString(),
         jenis: json["jenis"] ?? "",
         name: json["name"] ?? "",
         tanggal:

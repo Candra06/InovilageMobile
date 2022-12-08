@@ -39,10 +39,10 @@ class DetailPengirimanModel {
         alamatJemput: json["alamat_jemput"] ?? "",
         latAddress: json["lat_address"],
         longAddress: json["long_address"],
-        totalVolume: json["total_volume"],
+        totalVolume: json["total_volume"].toString(),
         jenisSampah: json["jenis_sampah"] ?? "",
         status: json["status"] ?? "",
-        totalamount: json["totalamount"] ?? "",
+        totalamount: json["totalamount"].toString(),
         adminfee: json["adminfee"] ?? 0,
         kurirfee: json["kurirfee"] ?? 0,
         netamount: json["netamount"] ?? 0,
@@ -103,9 +103,9 @@ class Item {
         jenis: json["jenis"] ?? "",
         nama: json["nama"] ?? "",
         satuan: json["satuan"] ?? "",
-        volume: json["volume"] ?? "",
-        hargaSatuan: json["harga_satuan"] ?? "",
-        hargaTotal: json["harga_total"] ?? "",
+        volume: json["volume"].toString(),
+        hargaSatuan: json["harga_satuan"].toString(),
+        hargaTotal: json["harga_total"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

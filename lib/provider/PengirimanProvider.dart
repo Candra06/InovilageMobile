@@ -28,20 +28,22 @@ class PengirimanProvider with ChangeNotifier {
     _listPengiriman = [];
     _loadingList = true;
     notifyListeners();
-    try {
-      var response = await EndPoint.getListPengiriman();
+    var response = await EndPoint.getListPengiriman();
 
-      if (response['code'] == '00') {
-        _listPengiriman = List<PengirimanModel>.from(
-            response['data'].map((e) => PengirimanModel.fromJson(e)).toList());
-      } else {
-        _listPengiriman = [];
-      }
+    if (response['code'] == '00') {
+      _listPengiriman = List<PengirimanModel>.from(
+          response['data'].map((e) => PengirimanModel.fromJson(e)).toList());
+    } else {
+      _listPengiriman = [];
+    }
+    try {
       _loadingList = false;
       notifyListeners();
       return response;
     } catch (e) {
+      print(e);
       _loadingList = false;
+      notifyListeners();
       return {
         "code": Network().codeError,
         "message": e.toString(),
@@ -67,12 +69,11 @@ class PengirimanProvider with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getDetailPengiriman(String id) async {
+    var response = await EndPoint.getDetailPengiriman(id);
+    if (response['code'] == '00') {
+      _detailPengiriman = DetailPengirimanModel.fromJson(response['data']);
+    }
     try {
-      var response = await EndPoint.getDetailPengiriman(id);
-      if (response['code'] == '00') {
-        _detailPengiriman = DetailPengirimanModel.fromJson(response['data']);
-      }
-
       notifyListeners();
       return response;
     } catch (e) {

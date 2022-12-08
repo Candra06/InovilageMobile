@@ -27,14 +27,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       load = true;
     });
-     await Provider.of<SampahProvider>(
-        context,
-        listen: false,
-      ).getListTrash();
-      await Provider.of<ArtikelProvider>(
-        context,
-        listen: false,
-      ).getArtikelList();
+    await Provider.of<SampahProvider>(
+      context,
+      listen: false,
+    ).getListTrash();
+    await Provider.of<ArtikelProvider>(
+      context,
+      listen: false,
+    ).getArtikelList();
     var data = Provider.of<AuthProvider>(
       context,
       listen: false,

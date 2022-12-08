@@ -10,14 +10,14 @@ class SaldoProvider with ChangeNotifier {
   List<SaldoModel> get listSaldo => _listSaldo;
   Future<Map<String, dynamic>> getListSaldo() async {
     _loading = true;
+    var response = await EndPoint.getSaldo();
+    if (response['code'] == '00') {
+      _listSaldo = List<SaldoModel>.from(
+          response['data'].map((e) => SaldoModel.fromJson(e)).toList());
+    } else {
+      _listSaldo = [];
+    }
     try {
-      var response = await EndPoint.getSaldo();
-      if (response['code'] == '00') {
-        _listSaldo = List<SaldoModel>.from(
-            response['data'].map((e) => SaldoModel.fromJson(e)).toList());
-      } else {
-        _listSaldo = [];
-      }
       _loading = false;
       notifyListeners();
       return response;

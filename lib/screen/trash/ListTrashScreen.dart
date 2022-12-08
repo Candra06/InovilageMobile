@@ -184,7 +184,9 @@ class _ListTrashScreenState extends State<ListTrashScreen> {
         Navigator.pushNamed(
           context,
           Navigation.formSampahScreen,
-          arguments: 'add',
+          arguments: {
+            'data': '',
+          },
         );
       },
       child: Container(

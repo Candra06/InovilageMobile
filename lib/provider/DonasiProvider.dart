@@ -40,6 +40,7 @@ class DonasiProvider with ChangeNotifier {
       return response;
     } catch (e) {
       _loadingList = false;
+      notifyListeners();
       return {
         "code": Network().codeError,
         "message": e.toString(),

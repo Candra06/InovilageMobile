@@ -37,14 +37,14 @@ class PengirimanModel {
         tanggal:
             json["tanggal"] == null ? null : DateTime.parse(json["tanggal"]),
         kodeTransaksi: json["kode_transaksi"] ?? "",
-        pengirimId: json["pengirim_id"] ?? "",
+        pengirimId: json["pengirim_id"].toString(),
         name: json["name"] ?? "",
-        kurirId: json["kurir_id"] ?? "",
+        kurirId: json["kurir_id"].toString(),
         alamatJemput: json["alamat_jemput"] ?? "",
         latAddress: json["lat_address"] ?? "",
         longAddress: json["long_address"] ?? "",
-        totalPrice: json["total_price"] ?? "",
-        totalVolume: json["total_volume"] ?? "",
+        totalPrice: json["total_price"].toString(),
+        totalVolume: json["total_volume"].toString(),
         status: json["status"] ?? "",
         jenisSampah: json["jenis_sampah"] ?? "",
         createdAt: json["created_at"] == null

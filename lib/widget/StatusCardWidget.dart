@@ -37,12 +37,12 @@ class _StatusCardWidgetState extends State<StatusCardWidget> {
           .then((value) {
         if (value['code'] == '00') {
           if (type == 'detail') {
-            Navigator.pushNamed(
-              context,
-              Navigation.detailPengirimanScreen,
-              arguments: id,
-            );
             if (widget.transType == 'pengiriman') {
+              Navigator.pushNamed(
+                context,
+                Navigation.detailPengirimanScreen,
+                arguments: id,
+              );
             } else {
               Navigator.pushNamed(
                 context,
@@ -242,23 +242,25 @@ class _StatusCardWidgetState extends State<StatusCardWidget> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextWidget(
-                            label: "#${widget.data['kode_transaksi']}",
-                            type: 'l1',
-                            color: fontPrimaryColor,
-                          ),
-                          TextWidget(
-                            label: "${widget.data['alamat_jemput']}",
-                            type: 'l1',
-                            useEllipsis: true,
-                            textOverflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            color: fontPrimaryColor,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextWidget(
+                              label: "#${widget.data['kode_transaksi']}",
+                              type: 'l1',
+                              color: fontPrimaryColor,
+                            ),
+                            TextWidget(
+                              label: "${widget.data['alamat_jemput']}",
+                              type: 'l1',
+                              useEllipsis: true,
+                              textOverflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              color: fontPrimaryColor,
+                            ),
+                          ],
+                        ),
                       ),
                       BadgeWidget(
                         text: "${widget.data['status']}",
